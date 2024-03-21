@@ -4,6 +4,7 @@ from flask import render_template
 from flask import request
 from app.models.todo_model import Item
 from app.models.messages_model import Message
+from app.models.users_model import User
 import datetime
 from app.extensions import db
 from flask import Blueprint
@@ -27,7 +28,7 @@ def add_new_message_form():
     # if id:
     #     return render_template('messages/add_new_message_form.html', item=Item.query.get(id))
     # else:
-    return render_template('messages/add_new_message_form.html')
+    return render_template('messages/add_new_message_form.html', users = User.query.all())
 
 
 @messages_blueprint.route('add-new-message', methods = ['GET', 'POST'])

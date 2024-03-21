@@ -16,9 +16,17 @@
       <label for="status">Status</label>
       <input type="text" name="status" {% if message %}value="{{message.status}}"{% endif %}>
 
-      <label for="directed_to">Directed to</label>
-      <input type="text" name="directed_to" {% if message %}value="{{message.directed_to}}"{% endif %}>
+      <!-- <label for="directed_to">Directed to</label>
+      <input type="text" name="directed_to" {% if message %}value="{{message.directed_to}}"{% endif %}> -->
 
+      <label for="directed_to">User:</label>
+      <select id="directed_to" name="cars">
+        <option value=""></option>
+        <option value="Everyone">Everyone</option>
+        {% for user in users %}
+          <option value="{{ user.name }}">{{ user.name }}</option>
+        {% endfor %}
+      </select>
 
 
     <input type="submit" value="Submit">
