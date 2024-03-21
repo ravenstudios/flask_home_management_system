@@ -1,0 +1,70 @@
+{% extends 'base-template.html' %}
+{% block content %}
+<div class="container">
+
+  <table class="table">
+    <thread>
+        <tr>
+          <th>Priority</th>
+          <th>Name</th>
+          <th>Notes</th>
+          <th>Completed</th>
+          <th>Date Entered</th>
+          <th>Date Completed</th>
+          <th>...</th>
+        </tr>
+      </thread>
+      <tbody>
+      {% for item in items %}
+        <tr>
+              <td>
+                {{ item.item_priority }}
+                <span class="icon">
+                  <a href="/change-item-priority-up?_id={{ item._id }}"><i class="fas fa-arrow-up"></i></a>
+                </span>
+                <span class="icon">
+                  <a href="/change-item-priority-down?_id={{ item._id }}"><i class="fas fa-arrow-down"></i></a>
+                </span>
+
+              </td>
+              <td>{{ item.item_name }}</td>
+              <td>{{ item.item_notes }}</td>
+              <td>
+
+                <input type="checkbox" id="item_date_completed_{{ item._id }}" name="item_date_completed" {%if item.item_completed  %} checked="checked" {% endif %} value="" onclick="checkboxToggle({{ item._id }})">
+
+              </td>
+              <td>{{ item.item_date_entered }}</td>
+              <td>{{ item.item_date_completed }}</td>
+              <td><a href="add-new-item-form?_id={{ item._id }}">Edit</a></td>
+              <!-- <td><a href="delete-item?_id={{ item._id }}"></a></td> -->
+              <td><button type="button" name="button" onclick="confirmDelete({{ item._id }})">Delete</button></td>
+
+
+        </tr>
+
+        {% endfor %}
+      </tbody>
+  </table>
+</div>
+
+<script type="text/javascript">
+  function checkboxToggle(id){
+    var checkBox = document.getElementById("item_date_completed_" + id);
+    if (checkBox.checked == true){
+      window.location.href = "/toggle-completed?_id=" + id + "&checked=true"
+
+    } else {
+      window.location.href = "/toggle-completed?_id=" + id + "&checked=false"
+    }
+  }
+
+  function confirmDelete(id){
+    if(confirm("Are you sure you want to delete")){
+      window.location.href = "/delete-item?_id=" + id
+    }
+  }
+
+</script>
+
+{% endblock %}
