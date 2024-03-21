@@ -1,4 +1,4 @@
-{% extends 'base-template.html' %}
+{% extends 'todo_list/base-template.html' %}
 {% block content %}
 <div id="content">
   <form class="" {% if item %}action="add-new-item?_id={{ item._id }}"{% else %}action="add-new-item"{% endif %} method="post">

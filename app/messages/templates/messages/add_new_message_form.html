@@ -1,0 +1,27 @@
+{% extends 'messages/base-template.html' %}
+{% block content %}
+<div id="content">
+  <form class="" {% if message %}action="add-new-message?_id={{ message._id }}"{% else %}action="add-new-message"{% endif %} method="post">
+    <div class="">
+      {% if message %}<h1>{{ message._id}}</h1> {% endif %}
+      {% if message %}<input type="hidden" name="_id" value="{{ message._id}}">{% endif %}
+      <h1>Add New Message</h1>
+
+      <label for="title">Title</label>
+      <input type="text" name="title" {% if message %}value="{{message.title}}"{% endif %}>
+
+      <label for="content">Content</label>
+      <input type="text" name="content"{% if message %}value="{{message.content}}"{% endif %}>
+
+      <label for="status">Status</label>
+      <input type="text" name="status" {% if message %}value="{{message.status}}"{% endif %}>
+
+      <label for="directed_to">Directed to</label>
+      <input type="text" name="directed_to" {% if message %}value="{{message.directed_to}}"{% endif %}>
+
+
+
+    <input type="submit" value="Submit">
+  </form>
+</div>
+{% endblock %}

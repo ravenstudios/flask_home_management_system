@@ -14,7 +14,7 @@ todo_list_blueprint = Blueprint('todo_list_blueprint', __name__, template_folder
 
 @todo_list_blueprint.route('/')
 def index():
-    return render_template('show_items.html', items=Item.query.order_by(Item.item_priority).all())
+    return render_template('todo_list/show_items.html', items=Item.query.order_by(Item.item_priority).all())
 
 
 
@@ -23,9 +23,9 @@ def add_new_item_form():
 
     id = request.args.get('_id')
     if id:
-        return render_template('add_new_item_form.html', item=Item.query.get(id))
+        return render_template('todo_list/add_new_item_form.html', item=Item.query.get(id))
     else:
-        return render_template('add_new_item_form.html')
+        return render_template('todo_list/add_new_item_form.html')
 
 
 @todo_list_blueprint.route('/add-new-item', methods = ['GET', 'POST'])
