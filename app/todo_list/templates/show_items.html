@@ -20,10 +20,10 @@
               <td>
                 {{ item.item_priority }}
                 <span class="icon">
-                  <a href="/change-item-priority-up?_id={{ item._id }}"><i class="fas fa-arrow-up"></i></a>
+                  <a href="/todo/change-item-priority-up?_id={{ item._id }}"><i class="fas fa-arrow-up"></i></a>
                 </span>
                 <span class="icon">
-                  <a href="/change-item-priority-down?_id={{ item._id }}"><i class="fas fa-arrow-down"></i></a>
+                  <a href="/todo/change-item-priority-down?_id={{ item._id }}"><i class="fas fa-arrow-down"></i></a>
                 </span>
 
               </td>
@@ -36,7 +36,7 @@
               </td>
               <td>{{ item.item_date_entered }}</td>
               <td>{{ item.item_date_completed }}</td>
-              <td><a href="add-new-item-form?_id={{ item._id }}">Edit</a></td>
+              <td><a href="/todo/add-new-item-form?_id={{ item._id }}">Edit</a></td>
               <!-- <td><a href="delete-item?_id={{ item._id }}"></a></td> -->
               <td><button type="button" name="button" onclick="confirmDelete({{ item._id }})">Delete</button></td>
 
@@ -52,16 +52,16 @@
   function checkboxToggle(id){
     var checkBox = document.getElementById("item_date_completed_" + id);
     if (checkBox.checked == true){
-      window.location.href = "/toggle-completed?_id=" + id + "&checked=true"
+      window.location.href = "/todo/toggle-completed?_id=" + id + "&checked=true"
 
     } else {
-      window.location.href = "/toggle-completed?_id=" + id + "&checked=false"
+      window.location.href = "/todo/toggle-completed?_id=" + id + "&checked=false"
     }
   }
 
   function confirmDelete(id){
     if(confirm("Are you sure you want to delete")){
-      window.location.href = "/delete-item?_id=" + id
+      window.location.href = "/todo/delete-item?_id=" + id
     }
   }
 

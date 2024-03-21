@@ -7,7 +7,7 @@ import datetime
 from app.extensions import db
 from flask import Blueprint
 
-todo_list_blueprint = Blueprint('todo_list_blueprint', __name__, template_folder='templates', static_folder='static')
+todo_list_blueprint = Blueprint('todo_list_blueprint', __name__, template_folder='templates', static_folder='static', url_prefix='/todo')
 
 
 
@@ -43,7 +43,7 @@ def add_new_item():
 
     db.session.add(item)
     db.session.commit()
-    return redirect("/")
+    return redirect("/todo")
 
 
 @todo_list_blueprint.route('/delete-item', methods = ['GET'])
@@ -51,7 +51,7 @@ def delete_item():
     args = request.args
     Item.query.filter_by(_id=args.get("_id")).delete()
     db.session.commit()
-    return redirect("/")
+    return redirect("/todo")
 
 
 @todo_list_blueprint.route('/toggle-completed', methods = ['GET'])
@@ -65,7 +65,7 @@ def toggle_completed():
     else:
         item.item_completed = False
     db.session.commit()
-    return redirect("/")
+    return redirect("/todo")
 
 
 
