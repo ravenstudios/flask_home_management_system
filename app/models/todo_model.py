@@ -1,9 +1,4 @@
-import sys
-sys.path.append('../app')
-
-# importing
-# from parentdirectory.geeks import geek_method
-from .extensions import db
+from app.extensions import db
 import datetime
 
 

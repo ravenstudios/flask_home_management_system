@@ -2,9 +2,9 @@ from flask import redirect
 from flask import url_for
 from flask import render_template
 from flask import request
-from ..models import Item
+from app.models.todo_model import Item
 import datetime
-
+from app.extensions import db
 from flask import Blueprint
 
 todo_list_blueprint = Blueprint('todo_list_blueprint', __name__, template_folder='templates', static_folder='static')
@@ -14,7 +14,6 @@ todo_list_blueprint = Blueprint('todo_list_blueprint', __name__, template_folder
 
 @todo_list_blueprint.route('/')
 def index():
-    # return "<h1>Todo List</h1>"
     return render_template('show_items.html', items=Item.query.order_by(Item.item_priority).all())
 
 
