@@ -1,0 +1,31 @@
+{% extends 'messages/base-template.html' %}
+{% block content %}
+
+  <div class="container">
+    <h1>{{ message.title }}</h1>
+    <p>{{ message.content}}</p>
+    <p>To:  {{ message.directed_to }}</p>
+    <p>Date Entered:  {{ message.date_entered }}</p>
+    <p>Date Read:  {{ message.date_read }}</p>
+    <button type="button" name="delete" onclick="confirmDelete({{ message._id }})">Delete</button>
+  </div>
+
+  <script type="text/javascript">
+    // function checkboxToggle(id){
+    //   var checkBox = document.getElementById("item_date_completed_" + id);
+    //   if (checkBox.checked == true){
+    //     window.location.href = "/toggle-completed?_id=" + id + "&checked=true"
+    //
+    //   } else {
+    //     window.location.href = "/toggle-completed?_id=" + id + "&checked=false"
+    //   }
+    // }
+
+    function confirmDelete(id){
+      if(confirm("Are you sure you want to delete")){
+        window.location.href = "delete-message?_id=" + id
+      }
+    }
+
+  </script>
+{% endblock %}

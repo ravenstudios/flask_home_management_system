@@ -20,7 +20,7 @@
       <input type="text" name="directed_to" {% if message %}value="{{message.directed_to}}"{% endif %}> -->
 
       <label for="directed_to">User:</label>
-      <select id="directed_to" name="cars">
+      <select id="directed_to" name="directed_to">
         <option value=""></option>
         <option value="Everyone">Everyone</option>
         {% for user in users %}

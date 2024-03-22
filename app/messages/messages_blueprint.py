@@ -17,8 +17,14 @@ messages_blueprint = Blueprint('messages_blueprint', __name__, template_folder='
 @messages_blueprint.route('/')
 def index():
     # return "<h1>messages<?h1>"
-    return render_template('messages/show_messages.html', messages=Message.query.all())
+    return render_template('messages/show_messages.html', messages=Message.query.all(), title="Messages")
 
+
+@messages_blueprint.route('show-single-message')
+def show_single_message():
+    # return "<h1>messages<?h1>"
+    id = request.args.get('_id')
+    return render_template('messages/show_single_message.html', message=Message.query.get(id))
 
 
 @messages_blueprint.route('add-new-message-form', methods = ['GET', 'POST'])
@@ -34,27 +40,18 @@ def add_new_message_form():
 @messages_blueprint.route('add-new-message', methods = ['GET', 'POST'])
 def add_new_item():
     form_data = request.form.to_dict(flat=False)
-    message = None
-    if "_id" in form_data.keys():
-        message = Item.query.get(form_data["_id"][0])
-
-        message.message_name = form_data["message_name"][0]
-        message.message_notes = form_data["message_notes"][0]
-    else:
-        form_data.pop('_id', None)
-        message = Message(form_data)
-
+    message = Message(form_data)
     db.session.add(message)
     db.session.commit()
     return redirect("/messages")
 
 
-# @messages_blueprint.route('/delete-message', methods = ['GET'])
-# def delete_item():
-#     args = request.args
-#     Item.query.filter_by(_id=args.get("_id")).delete()
-#     db.session.commit()
-#     return redirect("/todo")
+@messages_blueprint.route('/delete-message', methods = ['GET'])
+def delete_item():
+    args = request.args
+    Message.query.filter_by(_id=args.get("_id")).delete()
+    db.session.commit()
+    return redirect("/messages")
 #
 #
 # @messages_blueprint.route('/toggle-completed', methods = ['GET'])

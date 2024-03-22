@@ -14,7 +14,7 @@ todo_list_blueprint = Blueprint('todo_list_blueprint', __name__, template_folder
 
 @todo_list_blueprint.route('/')
 def index():
-    return render_template('todo_list/show_items.html', items=Item.query.order_by(Item.item_priority).all())
+    return render_template('todo_list/show_items.html', items=Item.query.order_by(Item.item_priority).all(), title="Todo List")
 
 
 
