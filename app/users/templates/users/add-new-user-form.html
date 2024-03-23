@@ -1,0 +1,20 @@
+{% extends 'base-template.html' %}
+{% block content %}
+<div id="content">
+  <form class="" {% if user %}action="add-new-user?_id={{ user._id }}"{% else %}action="add-new-user"{% endif %} method="post" enctype="multipart/form-data">
+    {% if user %}<h1>{{ user._id}}</h1> {% endif %}
+    {% if user %}<input type="hidden" name="_id" value="{{ user._id}}">{% endif %}
+
+    <label for="name">Name</label>
+      <input type="text" name="name" {% if user %}value="{{user.name}}"{% endif %}>
+
+    <label for="phone">Phone</label>
+      <input type="text" name="phone"{% if user %}value="{{user.phone}}"{% endif %}>
+
+    <label for="phone">Icon</label>
+      <input type="file" name="image_file_location" />
+
+    <input type="submit" value="Submit">
+  </form>
+</div>
+{% endblock %}

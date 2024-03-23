@@ -18,7 +18,12 @@
 
 
       <div class="container">
+
         {% include 'navbar.html' %}
+
+        <h1 class="title is-1">{{title}}</h1>
+
+
         {% block content %} {% endblock %}
         <div class="footer ">
           <!-- <div id="footer">
