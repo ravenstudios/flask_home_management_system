@@ -9,7 +9,7 @@ from app.models.users_model import User
 import datetime
 from app.extensions import db
 from flask import Blueprint
-
+from flask_login import login_required
 finances_blueprint = Blueprint('finances_blueprint', __name__, template_folder='./templates', static_folder='static', url_prefix='/finances')
 
 
@@ -23,6 +23,7 @@ def index():
 
 
 @finances_blueprint.route('add-new-bill-form', methods = ['GET', 'POST'])
+@login_required
 def add_new_bill_form():
     return render_template('finances/add_new_bill_form.html', title="Add New Bill")
 

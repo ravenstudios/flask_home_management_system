@@ -1,12 +1,12 @@
 from app.extensions import db
-import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
-
-
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = "users"
-    _id = db.Column(db.Integer, primary_key=True)
-
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100))
+    password_hash = db.Column(db.String(128))
     name = db.Column(db.String(100))
     phone = db.Column(db.String(20))
     image_file_location = db.Column(db.String(300))
@@ -14,12 +14,22 @@ class User(db.Model):
     messages = db.relationship("Message", backref="users")
     paychecks = db.relationship("Paycheck", backref="users")
 
+    @property
+    def password(self):
+        raise AttributeError("Password is not a readable attribute")
 
+    @password.setter
+    def password(self, password):
+        print(f"password:{password}")
+        self.password_hash = generate_password_hash(password, method='pbkdf2:sha256')
+
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
     def __init__(self, user):
         self.name = user["name"][0]
         self.phone = user["phone"][0]
-        
+        self.username = user["username"][0]
 
 
     def __repr__(self):

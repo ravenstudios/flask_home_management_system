@@ -11,7 +11,7 @@ class Message(db.Model):
     content = db.Column(db.String(300))
     status = db.Column(db.String(30))
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users._id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = db.relationship("User", back_populates="messages")
 
     date_entered = db.Column(db.Date())

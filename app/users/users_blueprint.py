@@ -34,7 +34,7 @@ def add_new_user():
     if request.method == 'POST':
         form_data = request.form.to_dict(flat=False)
         user = User(form_data)
-
+        user.password = form_data["password_hash"][0]
         f = request.files['image_file_location']
         print(f"f:{f.filename}")
         user.image_file_location = f"/static/images/{f.filename}"

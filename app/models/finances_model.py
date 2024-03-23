@@ -47,7 +47,7 @@ class Paycheck(db.Model):
     date_paid = db.Column(db.Date())
 
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users._id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = db.relationship("User", back_populates="paychecks")
 
 
