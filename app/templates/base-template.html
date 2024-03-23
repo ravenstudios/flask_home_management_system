@@ -11,17 +11,14 @@
 
     <section class="section">
 
-      <div class="container is-fluid">
-        <div class="notification is-primary">
-          <strong>{{title}}</strong>
 
-          <a class="navbar-item" href="/messages">Messages</a>
-          <a class="navbar-item" href="/todo">Todo List</a>
-        </div>
-      </div>
+
+
+
+
 
       <div class="container">
-
+        {% include 'navbar.html' %}
         {% block content %} {% endblock %}
         <div class="footer ">
           <!-- <div id="footer">
