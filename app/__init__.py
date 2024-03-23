@@ -3,6 +3,7 @@ from flask_migrate import Migrate
 
 from app.todo_list.todo_list_blueprint import todo_list_blueprint
 from app.messages.messages_blueprint import messages_blueprint
+from app.finances.finances_blueprint import finances_blueprint
 
 
 from app.extensions import db
@@ -20,6 +21,7 @@ def create_app(config_class=Config):
     migrate = Migrate(app, db)
     app.register_blueprint(todo_list_blueprint)
     app.register_blueprint(messages_blueprint)
+    app.register_blueprint(finances_blueprint)
 
 
 

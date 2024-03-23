@@ -9,9 +9,9 @@ class User(db.Model):
 
     name = db.Column(db.String(100))
     image_file_location = db.Column(db.String(300))
-    # message_id = db.Column(db.Integer, db.ForeignKey('message._id'))
-    # from.users_model import User
+    
     messages = db.relationship("Message", backref="users")
+    paychecks = db.relationship("Paycheck", backref="users")
 
 
 

@@ -29,16 +29,11 @@ def show_single_message():
 
 @messages_blueprint.route('add-new-message-form', methods = ['GET', 'POST'])
 def add_new_message_form():
-    # return "!!!!!!!!!!!!!!!"
-    # id = request.args.get('_id')
-    # if id:
-    #     return render_template('messages/add_new_message_form.html', item=Item.query.get(id))
-    # else:
     return render_template('messages/add_new_message_form.html', users = User.query.all(), title="Messages")
 
 
 @messages_blueprint.route('add-new-message', methods = ['GET', 'POST'])
-def add_new_item():
+def add_new_message():
     form_data = request.form.to_dict(flat=False)
     print(form_data)
     user = User.query.filter_by(name=form_data["directed_to"][0]).first()
