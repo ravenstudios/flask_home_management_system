@@ -10,7 +10,7 @@
 </style>
 
 <div class="container">
-
+  <a href="/messages/add-new-message-form">Add New Message</a>
   <table class="table">
     <thread>
         <tr>
@@ -24,12 +24,16 @@
       </thread>
       <tbody>
       {% for message in messages %}
-        <a href="">Show</a>
+
         <tr class="clickable-row" onclick="location.href='show-single-message?_id={{ message._id }}';">
+            <td>
+              <img src={{ message.user.image_file_location }} alt="" class="user-icon">
+            </td>
             <td>{{ message.title }}</td>
             <td>{{ message.content }}</td>
             <td>{{ message.status }}</td>
-            <td>{{ message.directed_to }}</td>
+            <!-- <td>{{ message.user.name }}</td> -->
+
             <td>{{ message.date_entered }}</td>
             <td>{{ message.date_read }}</td>
         </tr>

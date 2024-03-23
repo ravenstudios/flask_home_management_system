@@ -34,13 +34,17 @@ def add_new_message_form():
     # if id:
     #     return render_template('messages/add_new_message_form.html', item=Item.query.get(id))
     # else:
-    return render_template('messages/add_new_message_form.html', users = User.query.all())
+    return render_template('messages/add_new_message_form.html', users = User.query.all(), title="Messages")
 
 
 @messages_blueprint.route('add-new-message', methods = ['GET', 'POST'])
 def add_new_item():
     form_data = request.form.to_dict(flat=False)
+    print(form_data)
+    user = User.query.filter_by(name=form_data["directed_to"][0]).first()
+    # print(f"User:{user}")
     message = Message(form_data)
+    message.user_id = user._id
     db.session.add(message)
     db.session.commit()
     return redirect("/messages")
