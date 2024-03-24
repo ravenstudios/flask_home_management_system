@@ -25,3 +25,9 @@ Download and install packages.
 ```
 pip3 install -r requirements.txt
 ```
+
+Run flask.
+
+```
+flask run
+```
