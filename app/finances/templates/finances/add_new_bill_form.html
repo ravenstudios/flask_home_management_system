@@ -17,11 +17,11 @@
     <label for="date_due">Date Due</label>
       <input type="date" id="date_due" name="date_due">
 
-    <label for="paycheck">Add To Paycheck</label>
-      <select id="paycheck" name="paycheck">
-        <!-- {% for user in users %}
-          <option value="{{ user.name }}">{{ user.name }}</option>
-        {% endfor %} -->
+    <label for="paycheck_id">Add To Paycheck</label>
+      <select id="paycheck_id" name="paycheck_id">
+        {% for paycheck in paychecks %}
+          <option value="{{ paycheck.id }}">{{ paycheck.user.name }}, {{ paycheck.date_paid }}, {{ paycheck.ammount }}</option>
+        {% endfor %}
       </select>
     <input type="submit" value="Submit">
   </form>

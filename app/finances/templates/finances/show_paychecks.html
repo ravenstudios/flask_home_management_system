@@ -10,32 +10,57 @@
 </style>
 
 <div class="container">
-  <a href="/messages/add-new-message-form">Add New Message</a>
+  <a href="/finances/add-new-paycheck-form">Add New Paycheck</a>
   <table class="table">
     <thread>
         <tr>
-          <th>Title</th>
-          <th>Content</th>
-          <th>Status</th>
-          <th>Directed To</th>
-          <th>Date Entered</th>
-          <th>Date Read</th>
+          <th>User</th>
+          <th>Ammount</th>
+          <th>Notes</th>
+          <th>Date Paid</th>
+          <th>Bills</th>
         </tr>
       </thread>
       <tbody>
-      {% for message in messages %}
+      {% for paycheck in paychecks %}
 
-        <tr class="clickable-row" onclick="location.href='show-single-message?_id={{ message._id }}';">
+        <tr class="clickable-row" onclick="location.href='show-single-paycheck?_id={{ paycheck._id }}';">
             <td>
-              <img src={{ message.user.image_file_location }} alt="" class="user-icon">
+              <img src={{ paycheck.user.image_file_location }} alt="" class="user-icon">
             </td>
-            <td>{{ message.title }}</td>
-            <td>{{ message.content }}</td>
-            <td>{{ message.status }}</td>
-            <!-- <td>{{ message.user.name }}</td> -->
+            <td>{{ paycheck.ammount }}</td>
+            <td>{{ paycheck.notes }}</td>
+            <td>{{ paycheck.date_paid }}</td>
+            <td>
+              <table class="table">
+                <thread>
+                    <tr>
+                      <th>Name</th>
+                      <th>Ammount</th>
+                      <th>Notes</th>
+                      <th>Date Due</th>
+                      <th>Date Paid</th>
+                      <th>Is Paid</th>
+                    </tr>
+                  </thread>
+                  <tbody>
+                  {% for bill in paycheck.bills %}
 
-            <td>{{ message.date_entered }}</td>
-            <td>{{ message.date_read }}</td>
+                    <tr class="clickable-row" onclick="location.href='show-single-bill?_id={{ bill._id }}';">
+
+                        <td>{{ bill.name }}</td>
+                        <td>{{ bill.ammount }}</td>
+                        <td>{{ bill.notes }}</td>
+                        <td>{{ bill.date_due }}</td>
+                        <td>{{ bill.date_paid }}</td>
+                        <td>{{ bill.is_paid }}</td>
+
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+            </td>
+
         </tr>
 
         {% endfor %}
@@ -45,18 +70,18 @@
 
 <!-- <script type="text/javascript">
   function checkboxToggle(id){
-    var checkBox = document.getElementById("message_date_completed_" + id);
+    var checkBox = document.getElementById("paycheck_date_completed_" + id);
     if (checkBox.checked == true){
-      window.location.href = "/messages/toggle-completed?_id=" + id + "&checked=true"
+      window.location.href = "/paychecks/toggle-completed?_id=" + id + "&checked=true"
 
     } else {
-      window.location.href = "/messages/toggle-completed?_id=" + id + "&checked=false"
+      window.location.href = "/paychecks/toggle-completed?_id=" + id + "&checked=false"
     }
   }
 
   function confirmDelete(id){
     if(confirm("Are you sure you want to delete")){
-      window.location.href = "/messages/delete-message?_id=" + id
+      window.location.href = "/paychecks/delete-paycheck?_id=" + id
     }
   }
 
