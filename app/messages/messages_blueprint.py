@@ -38,7 +38,7 @@ def add_new_message():
     form_data = request.form.to_dict(flat=False)
     user = User.query.filter_by(name=form_data["directed_to"][0]).first()
     message = Message(form_data)
-    message.userid = user.id
+    message.user_id = user.id
     db.session.add(message)
     db.session.commit()
     return redirect("/messages")

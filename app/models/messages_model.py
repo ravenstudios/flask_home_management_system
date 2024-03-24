@@ -6,7 +6,7 @@ import datetime
 
 class Message(db.Model):
     __tablename__ = "messages"
-    _id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
     content = db.Column(db.String(300))
     status = db.Column(db.String(30))
@@ -30,7 +30,7 @@ class Message(db.Model):
 
     def __repr__(self):
         message ={
-            "_id":self._id,
+            "id":self.id,
             # "item_priority":self.item_priority,
             "title":self.title,
             "content":self.content,

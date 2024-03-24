@@ -1,10 +1,10 @@
 {% extends 'base-template.html' %}
 {% block content %}
 <div id="content">
-  <form class="" {% if message %}action="add-new-message?_id={{ message._id }}"{% else %}action="add-new-message"{% endif %} method="post">
+  <form class="" {% if message %}action="add-new-message?id={{ message.id }}"{% else %}action="add-new-message"{% endif %} method="post">
     <div class="">
-      {% if message %}<h1>{{ message._id}}</h1> {% endif %}
-      {% if message %}<input type="hidden" name="_id" value="{{ message._id}}">{% endif %}
+      {% if message %}<h1>{{ message.id}}</h1> {% endif %}
+      {% if message %}<input type="hidden" name="id" value="{{ message.id}}">{% endif %}
       <!-- <h1>Add New Message</h1> -->
 
       <label for="title">Title</label>
