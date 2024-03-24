@@ -24,7 +24,7 @@ def login():
         password = "pw"
         if user:
              if password:
-                 login_user(user)
+                 login_user(user, remember=True)
                  flash("Logged In")
                  return redirect('/todo')
 
