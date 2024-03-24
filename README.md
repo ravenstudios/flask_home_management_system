@@ -11,7 +11,7 @@ Home management system for tasks for the family.
 
 To deploy this project first create a virtual environment.
 ```
-python3 -m venv venv/bin/activate
+python3 -m venv venv
 ```
 
 Activate environment.
