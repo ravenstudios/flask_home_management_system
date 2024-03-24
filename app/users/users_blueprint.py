@@ -9,6 +9,9 @@ from app.models.users_model import User
 import datetime
 from app.extensions import db
 from flask import Blueprint
+from flask_login import login_required
+
+
 
 users_blueprint = Blueprint('users_blueprint', __name__, template_folder='./templates', static_folder='static', url_prefix='/users')
 
@@ -16,6 +19,7 @@ users_blueprint = Blueprint('users_blueprint', __name__, template_folder='./temp
 
 
 @users_blueprint.route('list-users')
+@login_required
 def index():
     # return "<h1>users<?h1>"
     return render_template('users/list-users.html', users=User.query.all(), title="List Users")
@@ -23,6 +27,7 @@ def index():
 
 
 @users_blueprint.route('add-new-user-form', methods = ['GET', 'POST'])
+@login_required
 def add_new_user_form():
     return render_template('users/add-new-user-form.html', title="Add New User")
 
@@ -30,6 +35,7 @@ def add_new_user_form():
 
 
 @users_blueprint.route('add-new-user', methods = ['GET', 'POST'])
+@login_required
 def add_new_user():
     if request.method == 'POST':
         form_data = request.form.to_dict(flat=False)
@@ -47,12 +53,14 @@ def add_new_user():
 
 
 @users_blueprint.route('add-new-paycheck-form', methods = ['GET', 'POST'])
+@login_required
 def add_new_paycheck_form():
     return render_template('users/add_new_paycheck_form.html', title="Add New Paycheck", users = User.query.all())
 
 
 
 @users_blueprint.route('add-new-paycheck', methods = ['GET', 'POST'])
+@login_required
 def add_new_message():
     form_data = request.form.to_dict(flat=False)
     user = User.query.filter_by(name=form_data["user"][0]).first()

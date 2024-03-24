@@ -11,6 +11,7 @@ from app.messages.messages_blueprint import messages_blueprint
 from app.finances.finances_blueprint import finances_blueprint
 from app.users.users_blueprint import users_blueprint
 from app.login.login_blueprint import login_blueprint
+from app.shopping_list.shopping_list_blueprint import shopping_list_blueprint
 
 
 from app.extensions import db
@@ -40,6 +41,7 @@ def create_app(config_class=Config):
     app.register_blueprint(finances_blueprint)
     app.register_blueprint(users_blueprint)
     app.register_blueprint(login_blueprint)
+    app.register_blueprint(shopping_list_blueprint)
 
     login_manager = LoginManager()
     login_manager.init_app(app)

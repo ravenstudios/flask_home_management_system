@@ -3,7 +3,7 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- <link rel="stylesheet" href= "{{ url_for('static',filename='style.css') }}" /> -->
-    <title>{% block title %}{% endblock %} - Todo List</title>
+    <title>{{title}}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
   </head>
   <body>
@@ -12,8 +12,10 @@
 
       <div class="container is-fluid">
         <div class="notification is-primary">
-          <strong>Todo List</strong>
-          <a class="navbar-item" href="add-new-item-form">Add New Item</a>
+          <strong>{{title}}</strong>
+
+          <a class="navbar-item" href="/messages">Messages</a>
+          <a class="navbar-item" href="/todo">Todo List</a>
         </div>
       </div>
 

@@ -10,9 +10,10 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(100))
     phone = db.Column(db.String(20))
     image_file_location = db.Column(db.String(300))
-
+    privilege = db.Column(db.Integer, default=0)#    0:user, 1:elevated, 2:admin
     messages = db.relationship("Message", backref="users")
     paychecks = db.relationship("Paycheck", backref="users")
+    # shopping_list_item_requests = db.relationship("Shopping_list", backref="users")
 
     @property
     def password(self):
@@ -34,7 +35,7 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         user ={
-            "_id":self._id,
+            "id":self._id,
             "name":self.name,
             "image_file_location":self.image_file_location
         }

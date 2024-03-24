@@ -1,0 +1,50 @@
+{% extends 'base-template.html' %}
+{% block content %}
+
+<style>
+    /* Optional: Styling for highlighting the clickable row */
+    tr.clickable-row:hover {
+        background-color: #f5f5f5;
+        cursor: pointer;
+    }
+</style>
+
+<div class="container">
+  <a href="add-new-item-form">Add New Item</a>
+  <table class="table">
+    <thread>
+        <tr>
+          <th>Name</th>
+          <th>Notes</th>
+          <th>Delete</th>
+
+        </tr>
+      </thread>
+      <tbody>
+      {% for item in items %}
+
+        <tr>
+
+            <td>{{ item.name }}</td>
+            <td>{{ item.notes }}</td>
+            <td><button type="button" name="delete" onclick="confirmDelete({{ item.id }})">Delete</button></td>
+
+
+
+        </tr>
+
+        {% endfor %}
+      </tbody>
+  </table>
+</div>
+
+<script type="text/javascript">
+  function confirmDelete(id){
+    if(confirm("Are you sure you want to delete")){
+      window.location.href = "/shopping-list/delete-item?id=" + id
+    }
+  }
+
+</script>
+
+{% endblock %}

@@ -6,6 +6,8 @@ from app.models.todo_model import Item
 import datetime
 from app.extensions import db
 from flask import Blueprint
+from flask_login import login_required
+
 
 todo_list_blueprint = Blueprint('todo_list_blueprint', __name__, template_folder='templates', static_folder='static', url_prefix='/todo')
 
@@ -13,12 +15,14 @@ todo_list_blueprint = Blueprint('todo_list_blueprint', __name__, template_folder
 
 
 @todo_list_blueprint.route('/')
+@login_required
 def index():
     return render_template('todo_list/show_items.html', items=Item.query.order_by(Item.item_priority).all(), title="Todo List")
 
 
 
 @todo_list_blueprint.route('/add-new-item-form', methods = ['GET', 'POST'])
+@login_required
 def add_new_item_form():
 
     id = request.args.get('_id')
@@ -29,6 +33,7 @@ def add_new_item_form():
 
 
 @todo_list_blueprint.route('/add-new-item', methods = ['GET', 'POST'])
+@login_required
 def add_new_item():
     form_data = request.form.to_dict(flat=False)
     item = None
@@ -47,6 +52,7 @@ def add_new_item():
 
 
 @todo_list_blueprint.route('/delete-item', methods = ['GET'])
+@login_required
 def delete_item():
     args = request.args
     Item.query.filter_by(_id=args.get("_id")).delete()
@@ -55,6 +61,7 @@ def delete_item():
 
 
 @todo_list_blueprint.route('/toggle-completed', methods = ['GET'])
+@login_required
 def toggle_completed():
     id = request.args.get('_id')
     item=Item.query.get(id)
@@ -70,6 +77,7 @@ def toggle_completed():
 
 
 @todo_list_blueprint.route('/change-item-priority-up', methods = ['GET'])
+@login_required
 def change_item_priority_up():
     item_id = request.args.get('_id', type=int)
 
@@ -82,6 +90,7 @@ def change_item_priority_up():
 
 
 @todo_list_blueprint.route('/change-item-priority-down', methods = ['GET'])
+@login_required
 def change_item_priority_down():
     item_id = request.args.get('_id', type=int)
 
