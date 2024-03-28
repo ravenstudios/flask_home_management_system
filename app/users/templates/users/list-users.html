@@ -24,7 +24,7 @@
       <tbody>
       {% for user in users %}
 
-        <tr class="clickable-row" onclick="location.href='/';">
+        <tr class="clickable-row" onclick="location.href='/users/edit-user-form?id={{ user.id }}';">
             <td>
               <img src={{ user.image_file_location }} alt="" class="user-icon">
             </td>

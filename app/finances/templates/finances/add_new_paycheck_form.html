@@ -1,9 +1,8 @@
 {% extends 'base-template.html' %}
 {% block content %}
 <div id="content">
-  <form class="" {% if paycheck %}action="add-new-paycheck?_id={{ paycheck._id }}"{% else %}action="add-new-paycheck"{% endif %} method="post">
-    {% if paycheck %}<h1>{{ paycheck._id}}</h1> {% endif %}
-    {% if paycheck %}<input type="hidden" name="_id" value="{{ paycheck._id}}">{% endif %}
+  <form class="" {% if paycheck %}action="add-new-paycheck?_id={{ paycheck.id }}"{% else %}action="add-new-paycheck"{% endif %} method="post">
+    
 
     <label for="user">User</label>
       <select id="user" name="user">
@@ -21,7 +20,7 @@
     <label for="date_paid">Date Paid</label>
       <input type="date" id="date_paid" name="date_paid">
 
-    
+
     <input type="submit" value="Submit">
   </form>
 </div>
