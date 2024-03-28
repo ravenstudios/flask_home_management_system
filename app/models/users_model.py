@@ -31,7 +31,7 @@ class User(db.Model, UserMixin):
         self.name = user["name"][0]
         self.phone = user["phone"][0]
         self.username = user["username"][0]
-
+        self.privilege = user["privilege"][0]
 
     def __repr__(self):
         user ={

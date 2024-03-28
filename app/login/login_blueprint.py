@@ -18,7 +18,8 @@ def login_form():
         admin_user = {
             "name": "admin",
             "username": "admin",
-            "phone": "123-123-1234"
+            "phone": "123-123-1234",
+            "privilege": "2"
         }
         new_user = User(admin_user)
         new_user.username="admin"
