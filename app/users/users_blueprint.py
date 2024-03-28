@@ -93,7 +93,6 @@ def add_new_user():
         form_data = request.form.to_dict(flat=False)
         user = User(form_data)
         user.password = form_data["password_hash"][0]
-
         user_image_file = request.files['image_file_location']
         user.image_file_location = f"/static/images/{user_image_file.filename}"
         user_image_file.save("app/static/images/" + user_image_file.filename)

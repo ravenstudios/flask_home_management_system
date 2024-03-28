@@ -16,14 +16,13 @@ def login_form():
     user = User.query.first()
     if not user:
         admin_user = {
-            "name": "admin",
-            "username": "admin",
-            "phone": "123-123-1234",
-            "privilege": "2"
+            "name": ["admin"],
+            "username": ["admin"],
+            "phone": ["123-123-1234"],
         }
         new_user = User(admin_user)
-        new_user.username="admin"
-        new_user.name="admin"
+        new_user.privilege = 2
+
         db.session.add(new_user)
         db.session.commit()
     return render_template('login/login-form.html')
