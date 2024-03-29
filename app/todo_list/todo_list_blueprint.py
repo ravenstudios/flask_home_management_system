@@ -9,7 +9,7 @@ from flask import Blueprint
 from flask_login import login_required
 
 
-todo_list_blueprint = Blueprint('todo_list_blueprint', __name__, template_folder='templates', static_folder='static', url_prefix='/todo')
+todo_list_blueprint = Blueprint('todo_list_blueprint', __name__, template_folder='templates', static_folder='static', url_prefix='/todo_list')
 
 
 
@@ -36,19 +36,12 @@ def add_new_item_form():
 @login_required
 def add_new_item():
     form_data = request.form.to_dict(flat=False)
-    item = None
-    if "_id" in form_data.keys():
-        item = Item.query.get(form_data["_id"][0])
+    item = Item(form_data)
 
-        item.item_name = form_data["item_name"][0]
-        item.item_notes = form_data["item_notes"][0]
-    else:
-        form_data.pop('_id', None)
-        item = Item(form_data)
 
     db.session.add(item)
     db.session.commit()
-    return redirect("/todo")
+    return redirect("/todo_list")
 
 
 @todo_list_blueprint.route('/delete-item', methods = ['GET'])
@@ -57,7 +50,7 @@ def delete_item():
     args = request.args
     Item.query.filter_by(_id=args.get("_id")).delete()
     db.session.commit()
-    return redirect("/todo")
+    return redirect("/todo_list")
 
 
 @todo_list_blueprint.route('/toggle-completed', methods = ['GET'])
@@ -72,7 +65,7 @@ def toggle_completed():
     else:
         item.item_completed = False
     db.session.commit()
-    return redirect("/todo")
+    return redirect("/todo_list")
 
 
 
@@ -86,7 +79,7 @@ def change_item_priority_up():
     if item_to_move and item_to_swap:
         item_to_move.item_priority, item_to_swap.item_priority = item_to_swap.item_priority, item_to_move.item_priority
         db.session.commit()
-    return redirect(url_for('index'))
+    return redirect("/todo_list")
 
 
 @todo_list_blueprint.route('/change-item-priority-down', methods = ['GET'])
@@ -99,4 +92,4 @@ def change_item_priority_down():
     if item_to_move and item_to_swap:
         item_to_move.item_priority, item_to_swap.item_priority = item_to_swap.item_priority, item_to_move.item_priority
         db.session.commit()
-    return redirect(url_for('index'))
+    return redirect("/todo_list")
