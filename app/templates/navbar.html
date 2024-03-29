@@ -13,12 +13,12 @@
     <div class="navbar-start">
       <a class="navbar-item" href="#">Home</a>
       <a class="navbar-item" href="/messages">Messages</a>
-      <a class="navbar-item" href="/todo">Todo List</a>
+      <a class="navbar-item" href="/todo">To Do List</a>
       <a class="navbar-item" href="/chores">Chore List</a>
 
       <a class="navbar-item" href="/shopping-list">Shopping List</a>
       <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">Finances</a>
+        <a class="navbar-link" href="/finances/show-paychecks">Finances</a>
         <div class="navbar-dropdown">
           <a class="navbar-item" href="/finances/show-paychecks">Show Paychecks</a>
           <a class="navbar-item" href="/finances/show-bills">Show Bills</a>
@@ -42,7 +42,15 @@
       <div class="buttons">
         <!-- <a class="button is-primary"><strong>Sign up</strong></a> -->
         {% if current_user.is_authenticated %}
-          <a class="button is-danger" href="/logout" ><strong>Log Out</strong></a>
+        <span class="navbar-item">
+          <span>
+            <h1 >{{ current_user.name}}</h1>
+          </span>
+          <span>
+            <img src="{{ current_user.image_file_location }}" alt="" >
+          </span>
+        </span>
+          <a class="button is-danger navbar-item" href="/logout" ><strong>Log Out</strong></a>
 
         {% endif %}
       </div>

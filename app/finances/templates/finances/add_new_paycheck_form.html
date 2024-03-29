@@ -2,7 +2,7 @@
 {% block content %}
 <div id="content">
   <form class="" {% if paycheck %}action="add-new-paycheck?_id={{ paycheck.id }}"{% else %}action="add-new-paycheck"{% endif %} method="post">
-    
+
 
     <label for="user">User</label>
       <select id="user" name="user">
@@ -18,7 +18,7 @@
       <input type="text" name="notes"{% if paycheck %}value="{{paycheck.notes}}"{% endif %}>
 
     <label for="date_paid">Date Paid</label>
-      <input type="date" id="date_paid" name="date_paid">
+      <input type="date" id="date_paid" name="date_paid" value="{{ today }}">
 
 
     <input type="submit" value="Submit">

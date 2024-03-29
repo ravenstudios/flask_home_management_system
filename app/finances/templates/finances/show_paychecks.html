@@ -22,13 +22,14 @@
         </tr>
       </thread>
       <tbody>
+
       {% for paycheck in paychecks %}
 
-        <tr class="clickable-row" onclick="location.href='show-single-paycheck?_id={{ paycheck._id }}';">
+        <tr>
             <td>
               <img src={{ paycheck.user.image_file_location }} alt="" class="user-icon">
             </td>
-            <td>{{ paycheck.ammount }}</td>
+            <td>${{ paycheck.ammount }}</td>
             <td>{{ paycheck.notes }}</td>
             <td>{{ paycheck.date_paid }}</td>
             <td>
@@ -41,26 +42,72 @@
                       <th>Date Due</th>
                       <th>Date Paid</th>
                       <th>Is Paid</th>
+                      <th>Add Bill
+                        <a href="add-new-bill-form?paycheck_id={{ paycheck.id }}">
+                          <span class="icon has-text-success">
+                            <i class="fas fa-plus-circle"></i>
+                          </span>
+                        </a>
+                      </th>
                     </tr>
                   </thread>
                   <tbody>
+
                   {% for bill in paycheck.bills %}
 
-                    <tr class="clickable-row" onclick="location.href='show-single-bill?_id={{ bill._id }}';">
-
+                    <tr>
+                      {{bills_total}}
+                    </tr>
+                    <tr>
                         <td>{{ bill.name }}</td>
-                        <td>{{ bill.ammount }}</td>
+                        <td>${{ bill.ammount }}</td>
                         <td>{{ bill.notes }}</td>
                         <td>{{ bill.date_due }}</td>
                         <td>{{ bill.date_paid }}</td>
                         <td>{{ bill.is_paid }}</td>
+                        <td>
+
+                          <a href="add-new-bill-form?bill_id={{ bill.id }}">
+                            <span class="icon has-text-warning">
+                              <i class="fas fa-edit"></i>
+                            </span>
+                          </a>
+
+
+                          <a onclick="confirmDelete('delete-bill?bill_id={{ bill.id }}')">
+                            <span class="icon has-text-danger">
+                              <i class="fas fa-trash"></i>
+                            </span>
+                          </a>
+                        </td>
 
                     </tr>
                   {% endfor %}
                   </tbody>
               </table>
             </td>
+            <td>
 
+                <table >
+                  <thread>
+                    <tr class="is-selected">
+                      <th>Bank</th>
+                      <th>Total Bills</th>
+                      <th>Ballance</th>
+                    </tr>
+                  </thread>
+                  <tbody>
+                    <tr class="is-selected is-warning">
+                      {% set total = paycheck.bills | sum(attribute='ammount') %}
+                      <td>${{ paycheck.ammount }}</td>
+                      <td>${{ total }}</td>
+                      {% set balance = paycheck.ammount - total %}
+                      <td>${{ balance }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+            </td>
         </tr>
 
         {% endfor %}
@@ -68,23 +115,6 @@
   </table>
 </div>
 
-<!-- <script type="text/javascript">
-  function checkboxToggle(id){
-    var checkBox = document.getElementById("paycheck_date_completed_" + id);
-    if (checkBox.checked == true){
-      window.location.href = "/paychecks/toggle-completed?_id=" + id + "&checked=true"
-
-    } else {
-      window.location.href = "/paychecks/toggle-completed?_id=" + id + "&checked=false"
-    }
-  }
-
-  function confirmDelete(id){
-    if(confirm("Are you sure you want to delete")){
-      window.location.href = "/paychecks/delete-paycheck?_id=" + id
-    }
-  }
-
-</script> -->
+<script type="text/javascript" src="/static/scripts/confirmDelete.js"></script>
 
 {% endblock %}
