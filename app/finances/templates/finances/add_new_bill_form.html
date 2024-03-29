@@ -20,7 +20,6 @@
     <h1>{{ paycheck_id }}</h1>
     <label for="paycheck_id">Add To Paycheck</label>
       <select id="paycheck_id" name="paycheck_id">
-        <option value=""></option>
         {% for paycheck in paychecks %}
           <option value="{{ paycheck.id }}" {% if paycheck.id|string == paycheck_id|string or (bill and paycheck.id|string == bill.paycheck.id|string) %} selected {% endif %}>
             {{ paycheck.user.name }}, {{ paycheck.date_paid }}, {{ paycheck.ammount }}

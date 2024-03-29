@@ -10,7 +10,6 @@
 </style>
 
 <div class="container">
-  <a href="add-new-bill-form">Add New Bill</a>
   <table class="table">
     <thread>
         <tr>
@@ -18,43 +17,53 @@
           <th>Ammount</th>
           <th>Notes</th>
           <th>Date Due</th>
-
+          <th>Date Paid</th>
+          <th>Is Paid</th>
+          <th>Paycheck</th>
+          <th>Edit / Delete Bill</th>
         </tr>
       </thread>
       <tbody>
+
       {% for bill in bills %}
 
         <tr>
-
+          {{bills_total}}
+        </tr>
+        <tr>
             <td>{{ bill.name }}</td>
-            <td>{{ bill.ammount }}</td>
+            <td>${{ bill.ammount }}</td>
             <td>{{ bill.notes }}</td>
             <td>{{ bill.date_due }}</td>
+            <td>{{ bill.date_paid }}</td>
+            <td>{{bill.is_paid}}</td>
+
+            <td>
+              {% if bill.paycheck %}{{ bill.paycheck.user.name }}, {{ bill.paycheck.date_paid }}, {{ bill.paycheck.ammount }}{% endif %}
+            </td>
+            <td>
+
+              <a href="add-new-bill-form?bill_id={{ bill.id }}">
+                <span class="icon has-text-warning">
+                  <i class="fas fa-edit"></i>
+                </span>
+              </a>
+
+
+              <a onclick="confirmDelete('delete-bill?bill_id={{ bill.id }}')">
+                <span class="icon has-text-danger">
+                  <i class="fas fa-trash"></i>
+                </span>
+              </a>
+            </td>
 
         </tr>
-
-        {% endfor %}
+      {% endfor %}
       </tbody>
   </table>
 </div>
 
-<!-- <script type="text/javascript">
-  function checkboxToggle(id){
-    var checkBox = document.getElementById("bill_date_completed_" + id);
-    if (checkBox.checked == true){
-      window.location.href = "/bills/toggle-completed?_id=" + id + "&checked=true"
-
-    } else {
-      window.location.href = "/bills/toggle-completed?_id=" + id + "&checked=false"
-    }
-  }
-
-  function confirmDelete(id){
-    if(confirm("Are you sure you want to delete")){
-      window.location.href = "/bills/delete-bill?_id=" + id
-    }
-  }
-
-</script> -->
+<script type="text/javascript" src="/static/scripts/confirmDelete.js"></script>
+<script type="text/javascript" src="/static/scripts/checkboxToggle.js"></script>
 
 {% endblock %}
