@@ -1,13 +1,12 @@
 # Use the official Python image as base
-FROM python:3.9
+FROM python:3.10
 
 # Set environment variables
-ENV FLASK_APP=run.py
+ENV FLASK_APP=app
+ENV FLASK_RUN_PORT=5000
 ENV FLASK_RUN_HOST=0.0.0.0
-
 # Set working directory in the container
 WORKDIR /app
-
 # Copy the current directory contents into the container at /app
 COPY . /app
 
