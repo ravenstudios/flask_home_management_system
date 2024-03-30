@@ -7,7 +7,7 @@ import datetime
 from app.extensions import db
 from flask import Blueprint
 from flask_login import login_required
-
+from app.models.users_model import User
 
 todo_list_blueprint = Blueprint('todo_list_blueprint', __name__, template_folder='templates', static_folder='static', url_prefix='/todo_list')
 
@@ -17,19 +17,19 @@ todo_list_blueprint = Blueprint('todo_list_blueprint', __name__, template_folder
 @todo_list_blueprint.route('/')
 @login_required
 def index():
-    return render_template('todo_list/show_items.html', items=Item.query.order_by(Item.item_priority).all(), title="Todo List")
+    return render_template('todo_list/show_items.html', items=Item.query.order_by(Item.priority).all(), title="Todo List")
 
 
 
 @todo_list_blueprint.route('/add-new-item-form', methods = ['GET', 'POST'])
 @login_required
 def add_new_item_form():
-
+    users = User.query.all()
     id = request.args.get('_id')
     if id:
-        return render_template('todo_list/add_new_item_form.html', item=Item.query.get(id))
+        return render_template('todo_list/add_new_item_form.html', item=Item.query.get(id), users=users)
     else:
-        return render_template('todo_list/add_new_item_form.html')
+        return render_template('todo_list/add_new_item_form.html', users=users)
 
 
 @todo_list_blueprint.route('/add-new-item', methods = ['GET', 'POST'])
@@ -38,6 +38,9 @@ def add_new_item():
     form_data = request.form.to_dict(flat=False)
     item = Item(form_data)
 
+    user = User.query.filter_by(name=form_data["user"][0]).first()
+
+    item.user_id = user.id
 
     db.session.add(item)
     db.session.commit()

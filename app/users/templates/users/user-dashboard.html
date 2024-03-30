@@ -2,52 +2,193 @@
 {% block content %}
 
 {% if current_user.is_authenticated %}
-<div id="content">
 
 
-  <h1 class="is-primary">User Dashboard: {{current_user.name}}</h1>
+<div class="section">
+  <div class="columes">
+    <div class="row columns is-multiline">
+
+      <div class="colume">
+        <div class="card">
+
+          <header class="card-header">
+            <p class="card-header-title">Messages</p>
+            <button class="card-header-icon" aria-label="more options" onclick="toggleDropdown('messages-dropdown-content')">
+              <span class="icon">
+                <i class="fas fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </button>
+          </header>
+
+          <div id="messages-dropdown-content" class="card-content" style="display: none;">
+            <div class="content">
+              <table class="table" id="user-messages" name="user-messages">
+                <tbody>
+                  <thead>
+                    <tr >
+                      <th>Title</th>
+                      <th>Message</th>
+                    </tr>
+                  </thead>
+
+                  {% for message in current_user.messages %}
+                    <tr>
+                      <td>{{message.title}}</td>
+                      <td>{{message.content}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+
+              <footer class="card-footer">
+                <a href="#" class="card-footer-item">Save</a>
+                <a href="#" class="card-footer-item">Edit</a>
+                <a href="#" class="card-footer-item">Delete</a>
+              </footer>
+            </div>
+          </div>
 
 
-  <label for="user-messages">Messages:</label>
-  <table class="table" id="user-messages" name="user-messages">
-    <tbody>
-      <thead>
-        <tr >
-          <th>Title</th>
-          <th>Message</th>
-        </tr>
-      </thead>
+        </div>
+      </div>
 
-      {% for message in current_user.messages %}
-        <tr>
-          <td>{{message.title}}</td>
-          <td>{{message.content}}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-  </table>
+      <div class="colume">
+        <div class="card">
 
-  <label for="user-chores">Messages:</label>
-  <table class="table" id="user-chores" name="user-chores">
-    <tbody>
-      <thead>
-        <tr >
-          <th>Title</th>
-          <th>Message</th>
-        </tr>
-      </thead>
+          <header class="card-header">
+            <p class="card-header-title">Chores</p>
+            <button class="card-header-icon" aria-label="more options" onclick="toggleDropdown('chores-dropdown-content')">
+              <span class="icon">
+                <i class="fas fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </button>
+          </header>
 
-      {% for message in current_user.chores %}
-        <tr>
-          <td>{{message.title}}</td>
-          <td>{{message.content}}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-  </table>
+          <div id="chores-dropdown-content" class="card-content" style="display: none;">
+            <div class="content">
+              <table class="table column" id="user-chores" name="user-chores">
+                <tbody>
+                  <thead>
+                    <tr >
+                      <th>Name</th>
+                      <th>Notes</th>
+                    </tr>
+                  </thead>
+
+                  {% for chore in current_user.chores %}
+                    <tr>
+                      <td>{{chore.name}}</td>
+                      <td>{{chore.notes}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+
+              <footer class="card-footer">
+                <a href="#" class="card-footer-item">Save</a>
+                <a href="#" class="card-footer-item">Edit</a>
+                <a href="#" class="card-footer-item">Delete</a>
+              </footer>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+
+      <div class="colume">
+        <div class="card">
+
+          <header class="card-header">
+            <p class="card-header-title">To Do List</p>
+            <button class="card-header-icon" aria-label="more options" onclick="toggleDropdown('todo-dropdown-content')">
+              <span class="icon">
+                <i class="fas fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </button>
+          </header>
+
+          <div id="todo-dropdown-content" class="card-content" style="display: none;">
+            <div class="content">
+              <table class="table column" id="user-chores" name="user-chores">
+                <tbody>
+                  <thead>
+                    <tr >
+                      <th>Name</th>
+                      <th>notes</th>
+                    </tr>
+                  </thead>
+
+                  {% for item in current_user.todo_list %}
+                    <tr>
+                      <td>{{item.name}}</td>
+                      <td>{{item.notes}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+
+              <footer class="card-footer">
+                <a href="#" class="card-footer-item">Save</a>
+                <a href="#" class="card-footer-item">Edit</a>
+                <a href="#" class="card-footer-item">Delete</a>
+              </footer>
+
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+
+      <div class="colume">
+        <div class="card">
+
+          <header class="card-header">
+            <p class="card-header-title">Settings</p>
+            <button class="card-header-icon" aria-label="more options" onclick="toggleDropdown('settings-dropdown-content')">
+              <span class="icon">
+                <i class="fas fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </button>
+          </header>
+
+          <div id="settings-dropdown-content" class="card-content" style="display: none;">
+            <div class="content">
+              <a href="#">Change Icon</a>
+              <a href="#">Change Password</a>
+              <a href="#">Change Settings</a>
+            </div>
+          </div>
+
+          <footer class="card-footer">
+
+          </footer>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>
 
-<script type="text/javascript" src="/static/scripts/confirmDelete.js"></script>
+
+
+<script>
+  function toggleDropdown(id) {
+    var dropdownContent = document.getElementById(id);
+    dropdownContent.style.display = (dropdownContent.style.display === "none") ? "block" : "none";
+  }
+</script>
+
+
+
+
+
+
+<!-- <script type="text/javascript" src="/static/scripts/confirmDelete.js"></script> -->
 
 {% endif %}
 {% endblock %}

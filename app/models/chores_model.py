@@ -11,6 +11,8 @@ class Chore(db.Model):
     completed = db.Column(db.Boolean())
     date_entered = db.Column(db.Date())
 
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = db.relationship("User", back_populates="chores")
 
 
     def __init__(self, item):

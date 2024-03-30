@@ -40,7 +40,7 @@ def add_new_message():
     message = Message(form_data)
     message.user_id = user.id
 
-    push_notification(None, message.title, message.content)
+    push_notification(user.push_device, message.title, message.content)
     db.session.add(message)
     db.session.commit()
     return redirect("/messages")

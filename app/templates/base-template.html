@@ -28,10 +28,15 @@
         {% if current_user.is_authenticated %}
         {% include 'navbar.html' %}
         {% endif %}
-        <h1 class="title is-1">{{title}}</h1>
+        <h1 class="title is-1">{{ title }}</h1>
 
+        <div class="container">
+          <section class="section">
+            {% block content %} {% endblock %}
+          </section>
 
-        {% block content %} {% endblock %}
+        </div>
+
         <div class="footer ">
           <!-- <div id="footer">
               {% block footer %}

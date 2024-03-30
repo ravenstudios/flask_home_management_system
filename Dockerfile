@@ -17,4 +17,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 5000
 
 # Command to run the application
+CMD ["flask", "db" "migrate"]
+CMD ["flask", "db" "upgrade"]
 CMD ["flask", "run"]

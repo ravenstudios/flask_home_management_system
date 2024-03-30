@@ -7,7 +7,7 @@ import datetime
 from app.extensions import db
 from flask import Blueprint
 from flask_login import login_required
-
+from app.models.users_model import User
 
 chores = Blueprint('chores', __name__, template_folder='templates', static_folder='static', url_prefix='/chores')
 
@@ -24,8 +24,8 @@ def index():
 @chores.route('/add-new-item-form', methods = ['GET', 'POST'])
 @login_required
 def add_new_item_form():
-
-    return render_template('chore_list/add_new_item_form.html')
+    users = User.query.all()
+    return render_template('chore_list/add_new_item_form.html', users=users)
 
 
 @chores.route('/add-new-item', methods = ['GET', 'POST'])
@@ -33,6 +33,11 @@ def add_new_item_form():
 def add_new_item():
     form_data = request.form.to_dict(flat=False)
     chore = Chore(form_data)
+
+    user = User.query.filter_by(name=form_data["user"][0]).first()
+
+    chore.user_id = user.id
+
     db.session.add(chore)
     db.session.commit()
     return redirect("/chores")

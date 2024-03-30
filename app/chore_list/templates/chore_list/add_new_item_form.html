@@ -9,12 +9,13 @@
       <input type="text" name="notes">
 
 
-    <!-- <label for="paycheck">Add To Paycheck</label>
-      <select id="paycheck" name="paycheck">
-        {% for user in users %}
-          <option value="{{ user.name }}">{{ user.name }}</option>
-        {% endfor %}
-      </select> -->
+      <label for="user">User</label>
+        <select id="user" name="user">
+          {% for user in users %}
+            <option value="{{ user.name }}">{{ user.name }}</option>
+          {% endfor %}
+        </select>
+
     <input type="submit" value="Submit">
   </form>
 </div>

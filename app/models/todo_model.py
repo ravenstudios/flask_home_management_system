@@ -5,39 +5,40 @@ import datetime
 
 class Item(db.Model):
     __tablename__ = "todo_list"
-    _id = db.Column(db.Integer, primary_key=True)
-    item_priority = db.Column(db.Integer)
-    item_name = db.Column(db.String(100))
-    item_notes = db.Column(db.String(300))
-    item_completed = db.Column(db.Boolean())
-    item_date_entered = db.Column(db.Date())
-    item_date_completed = db.Column(db.Date())
+    id = db.Column(db.Integer, primary_key=True)
+    priority = db.Column(db.Integer)
+    name = db.Column(db.String(100))
+    notes = db.Column(db.String(300))
+    completed = db.Column(db.Boolean())
+    date_entered = db.Column(db.Date())
+    date_completed = db.Column(db.Date())
 
-
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = db.relationship("User", back_populates="todo_list")
 
 
     def __init__(self, item):
          # Auto-increment item_priority based on existing priorities
-        max_priority = db.session.query(db.func.max(Item.item_priority)).scalar()
-        self.item_priority = (max_priority or 0) + 1
+        max_priority = db.session.query(db.func.max(Item.priority)).scalar()
+        self.priority = (max_priority or 0) + 1
 
 
-        self.item_name = item["item_name"][0]
-        self.item_notes = item["item_notes"][0]
-        self.item_completed = False
-        self.item_date_entered = datetime.datetime.now()
-        self.item_date_completed = None
+        self.name = item["name"][0]
+        self.notes = item["notes"][0]
+        self.completed = False
+        self.date_entered = datetime.datetime.now()
+        self.date_completed = None
 
 
     def __repr__(self):
         item ={
-            "_id":self._id,
+            "id":self.id,
             # "item_priority":self.item_priority,
-            "item_name":self.item_name,
-            "item_notes":self.item_notes,
-            "item_completed":self.item_completed,
-            "item_date_entered":self.item_date_entered,
-            "item_date_completed":self.item_date_completed
+            "name":self.name,
+            "notes":self.notes,
+            "completed":self.completed,
+            "date_entered":self.date_entered,
+            "date_completed":self.date_completed
         }
 
         return item
