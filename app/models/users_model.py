@@ -8,7 +8,7 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(100))
     username = db.Column(db.String(100))
     password_hash = db.Column(db.String(128))
-    phone = db.Column(db.String(20))
+    push_device = db.Column(db.String(20))
     image_file_location = db.Column(db.String(300))
     privilege = db.Column(db.Integer, default=0)#    0:user, 1:elevated, 2:admin
     messages = db.relationship("Message", back_populates="user")
@@ -29,9 +29,9 @@ class User(db.Model, UserMixin):
 
     def __init__(self, user):
         self.name = user["name"][0]
-        self.phone = user["phone"][0]
+        self.push_device = user["push_device"][0]
         self.username = user["username"][0]
-        
+
     def __repr__(self):
         user ={
             "id":self.id,

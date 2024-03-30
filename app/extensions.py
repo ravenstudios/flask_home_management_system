@@ -6,12 +6,12 @@ from flask import current_app
 db = SQLAlchemy()
 
 
-def push_notification(user, title, content):
+def push_notification(push_device, title, content):
     import requests
 
     url = 'https://api.pushover.net/1/messages.json'
     myobj = {
-        "device":"Robs_iPhone",
+        "device":push_device,
         "title": title,
         "token": "amqde3o6om81ai33kvvtar84pozhse",
         "user": "ujvr6a8zzjm2jii6v71eivgcrg1zn3",

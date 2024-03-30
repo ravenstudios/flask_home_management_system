@@ -80,8 +80,8 @@ def edit_user():
             user.name = form_data["name"][0]
         if form_data["username"][0]:
             user.username = form_data["username"][0]
-        if form_data["phone"][0]:
-            user.phone = form_data["phone"][0]
+        if form_data["push_device"][0]:
+            user.push_device = form_data["push_device"][0]
 
         user.privilege = form_data["privilege"][0]
 
