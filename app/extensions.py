@@ -11,10 +11,10 @@ def push_notification(user, title, content):
 
     url = 'https://api.pushover.net/1/messages.json'
     myobj = {
-        # "device":"Robs_iPhone",
+        "device":"Robs_iPhone",
         "title": title,
         "token": "amqde3o6om81ai33kvvtar84pozhse",
-        # "user": "ujvr6a8zzjm2jii6v71eivgcrg1zn3",
+        "user": "ujvr6a8zzjm2jii6v71eivgcrg1zn3",
         "message": content,
         "sound":"alien",
         }
