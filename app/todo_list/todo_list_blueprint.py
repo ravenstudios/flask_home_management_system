@@ -47,11 +47,20 @@ def add_new_item():
     return redirect("/todo_list")
 
 
+
+@todo_list_blueprint.route('show-single-item')
+@login_required
+def show_single_item():
+    id = request.args.get('id')
+    return render_template('todo_list/show_single_item.html', item=Item.query.get(id))
+
+
+
 @todo_list_blueprint.route('/delete-item', methods = ['GET'])
 @login_required
 def delete_item():
     args = request.args
-    Item.query.filter_by(_id=args.get("_id")).delete()
+    Item.query.filter_by(id=args.get("id")).delete()
     db.session.commit()
     return redirect("/todo_list")
 
@@ -59,7 +68,7 @@ def delete_item():
 @todo_list_blueprint.route('/toggle-completed', methods = ['GET'])
 @login_required
 def toggle_completed():
-    id = request.args.get('_id')
+    id = request.args.get('id')
     item=Item.query.get(id)
     checked = request.args.get('checked')
 
@@ -75,7 +84,7 @@ def toggle_completed():
 @todo_list_blueprint.route('/change-item-priority-up', methods = ['GET'])
 @login_required
 def change_item_priority_up():
-    item_id = request.args.get('_id', type=int)
+    item_id = request.args.get('id', type=int)
 
     item_to_move = Item.query.get(item_id)
     item_to_swap = Item.query.get(item_id - 1)
@@ -88,7 +97,7 @@ def change_item_priority_up():
 @todo_list_blueprint.route('/change-item-priority-down', methods = ['GET'])
 @login_required
 def change_item_priority_down():
-    item_id = request.args.get('_id', type=int)
+    item_id = request.args.get('id', type=int)
 
     item_to_move = Item.query.get(item_id)
     item_to_swap = Item.query.get(item_id + 1)

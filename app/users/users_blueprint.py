@@ -36,10 +36,29 @@ def list_users():
 
 
 
+@users_blueprint.route('change-password-form')
+@login_required
+def change_password():
+    user = User.query.get(request.args.get("id"))
+    return render_template('users/change-password-form.html', users=user, title="Change Password")
+
+
+
+@users_blueprint.route('change-icon-form')
+@login_required
+def change_icon():
+    user = User.query.get(request.args.get("id"))
+    return render_template('users/change-icon-form.html', users=user, title="Change Icon")
+
+
+
+
 @users_blueprint.route('add-new-user-form', methods = ['GET', 'POST'])
 @login_required
 def add_new_user_form():
     return render_template('users/add-new-user-form.html', title="Add New User")
+
+
 
 
 
@@ -58,6 +77,9 @@ def delete_user():
         db.session.commit()
         flash("User deleted successfully.", "success")
         return redirect("/users")
+
+
+
 
 @users_blueprint.route('edit-user-form', methods = ['GET', 'POST'])
 @login_required

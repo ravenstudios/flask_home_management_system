@@ -44,6 +44,14 @@ def add_new_item():
 
 
 
+@chores.route('show-chore')
+@login_required
+def show_single_chore():
+    id = request.args.get('id')
+    return render_template('chore_list/show_chore.html', chore=Chore.query.get(id))
+
+
+
 @chores.route('/delete-item', methods = ['GET'])
 @login_required
 def delete_item():
