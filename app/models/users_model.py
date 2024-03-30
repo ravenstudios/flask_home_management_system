@@ -13,6 +13,9 @@ class User(db.Model, UserMixin):
     privilege = db.Column(db.Integer, default=0)#    0:user, 1:elevated, 2:admin
     messages = db.relationship("Message", back_populates="user")
     paychecks = db.relationship("Paycheck", back_populates="user")
+    chores = db.relationship("Chore", back_populates="user")
+    todo_list = db.relationship("Item", back_populates="user")
+
     # shopping_list_item_requests = db.relationship("Shopping_list", back_populates="users")
 
     @property

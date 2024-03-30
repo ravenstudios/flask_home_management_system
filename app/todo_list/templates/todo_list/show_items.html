@@ -18,7 +18,7 @@
       {% for item in items %}
         <tr>
               <td>
-                {{ item.item_priority }}
+                {{ item.priority }}
                 <span class="icon">
                   <a href="/todo_list/change-item-priority-up?_id={{ item._id }}"><i class="fas fa-arrow-up"></i></a>
                 </span>
@@ -27,15 +27,15 @@
                 </span>
 
               </td>
-              <td>{{ item.item_name }}</td>
-              <td>{{ item.item_notes }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.notes }}</td>
               <td>
 
-                <input type="checkbox" id="item_date_completed_{{ item._id }}" name="item_date_completed" {%if item.item_completed  %} checked="checked" {% endif %} value="" onclick="checkboxToggle({{ item._id }})">
+                <input type="checkbox" id="date_completed_{{ item._id }}" name="date_completed" {%if item.completed  %} checked="checked" {% endif %} value="" onclick="checkboxToggle({{ item._id }})">
 
               </td>
-              <td>{{ item.item_date_entered }}</td>
-              <td>{{ item.item_date_completed }}</td>
+              <td>{{ item.date_entered }}</td>
+              <td>{{ item.date_completed }}</td>
               <td><a href="/todo_list/add-new-item-form?_id={{ item._id }}">Edit</a></td>
               <!-- <td><a href="delete-item?_id={{ item._id }}"></a></td> -->
               <td><button type="button" name="button" onclick="confirmDelete({{ item._id }})">Delete</button></td>
@@ -50,9 +50,9 @@
 
 <script type="text/javascript">
   function checkboxToggle(id){
-    var checkBox = document.getElementById("item_date_completed_" + id);
+    var checkBox = document.getElementById("date_completed_" + id);
     if (checkBox.checked == true){
-      window.location.href = "/todo_list/toggle-completed?_id=" + id + "&checked=true"
+      window.location.href = "/todo_list/toggle-completed?id=" + id + "&checked=true"
 
     } else {
       window.location.href = "/todo_list/toggle-completed?_id=" + id + "&checked=false"

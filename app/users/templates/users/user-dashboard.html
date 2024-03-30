@@ -39,14 +39,16 @@
                     {% endfor %}
                 </tbody>
               </table>
+
+              <footer class="card-footer">
+                <a href="#" class="card-footer-item">Save</a>
+                <a href="#" class="card-footer-item">Edit</a>
+                <a href="#" class="card-footer-item">Delete</a>
+              </footer>
             </div>
           </div>
 
-          <footer class="card-footer">
-            <a href="#" class="card-footer-item">Save</a>
-            <a href="#" class="card-footer-item">Edit</a>
-            <a href="#" class="card-footer-item">Delete</a>
-          </footer>
+
         </div>
       </div>
 
@@ -68,27 +70,29 @@
                 <tbody>
                   <thead>
                     <tr >
-                      <th>Title</th>
-                      <th>Message</th>
+                      <th>Name</th>
+                      <th>Notes</th>
                     </tr>
                   </thead>
 
-                  {% for message in current_user.chores %}
+                  {% for chore in current_user.chores %}
                     <tr>
-                      <td>{{message.title}}</td>
-                      <td>{{message.content}}</td>
+                      <td>{{chore.name}}</td>
+                      <td>{{chore.notes}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
               </table>
+
+              <footer class="card-footer">
+                <a href="#" class="card-footer-item">Save</a>
+                <a href="#" class="card-footer-item">Edit</a>
+                <a href="#" class="card-footer-item">Delete</a>
+              </footer>
             </div>
           </div>
 
-          <footer class="card-footer">
-            <a href="#" class="card-footer-item">Save</a>
-            <a href="#" class="card-footer-item">Edit</a>
-            <a href="#" class="card-footer-item">Delete</a>
-          </footer>
+
 
         </div>
       </div>
@@ -111,27 +115,30 @@
                 <tbody>
                   <thead>
                     <tr >
-                      <th>Title</th>
-                      <th>Message</th>
+                      <th>Name</th>
+                      <th>notes</th>
                     </tr>
                   </thead>
 
-                  {% for message in current_user.chores %}
+                  {% for item in current_user.todo_list %}
                     <tr>
-                      <td>{{message.title}}</td>
-                      <td>{{message.content}}</td>
+                      <td>{{item.name}}</td>
+                      <td>{{item.notes}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
               </table>
+
+              <footer class="card-footer">
+                <a href="#" class="card-footer-item">Save</a>
+                <a href="#" class="card-footer-item">Edit</a>
+                <a href="#" class="card-footer-item">Delete</a>
+              </footer>
+
             </div>
           </div>
 
-          <footer class="card-footer">
-            <a href="#" class="card-footer-item">Save</a>
-            <a href="#" class="card-footer-item">Edit</a>
-            <a href="#" class="card-footer-item">Delete</a>
-          </footer>
+
 
         </div>
       </div>
