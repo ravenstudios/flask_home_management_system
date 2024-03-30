@@ -38,7 +38,7 @@ def login():
              if password:
                  login_user(user, remember=True)
                  flash("Logged In")
-                 return redirect('/finances/show-paychecks')
+                 return redirect('/users/user-dashboard')
 
         else:
             flash("Logged In Error")

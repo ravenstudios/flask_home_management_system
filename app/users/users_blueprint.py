@@ -18,11 +18,21 @@ users_blueprint = Blueprint('users_blueprint', __name__, template_folder='./temp
 
 
 @users_blueprint.route('/')
+@users_blueprint.route('user-dashboard')
+@login_required
+def user_dashboard():
+    # return "<h1>users<?h1>"
+    return render_template('users/user-dashboard.html')
+
+
+
 @users_blueprint.route('list-users')
 @login_required
-def index():
+def list_users():
     # return "<h1>users<?h1>"
     return render_template('users/list-users.html', users=User.query.all(), title="List Users")
+
+
 
 
 

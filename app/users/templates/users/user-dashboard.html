@@ -1,0 +1,53 @@
+{% extends 'base-template.html' %}
+{% block content %}
+
+{% if current_user.is_authenticated %}
+<div id="content">
+
+
+  <h1 class="is-primary">User Dashboard: {{current_user.name}}</h1>
+
+
+  <label for="user-messages">Messages:</label>
+  <table class="table" id="user-messages" name="user-messages">
+    <tbody>
+      <thead>
+        <tr >
+          <th>Title</th>
+          <th>Message</th>
+        </tr>
+      </thead>
+
+      {% for message in current_user.messages %}
+        <tr>
+          <td>{{message.title}}</td>
+          <td>{{message.content}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+
+  <label for="user-chores">Messages:</label>
+  <table class="table" id="user-chores" name="user-chores">
+    <tbody>
+      <thead>
+        <tr >
+          <th>Title</th>
+          <th>Message</th>
+        </tr>
+      </thead>
+
+      {% for message in current_user.chores %}
+        <tr>
+          <td>{{message.title}}</td>
+          <td>{{message.content}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script type="text/javascript" src="/static/scripts/confirmDelete.js"></script>
+
+{% endif %}
+{% endblock %}
