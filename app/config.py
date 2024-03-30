@@ -14,3 +14,9 @@ class Config:
         or 'sqlite:///' + os.path.join(basedir, 'db.sqlite3')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOADS_DEFAULT_DEST = "static/images"
+
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USERNAME = 'ravenstudiosrob@gmail.com'
+    MAIL_PASSWORD = 'hdbr kxba xtbo wpdc'
