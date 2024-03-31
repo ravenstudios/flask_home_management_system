@@ -1,25 +1,37 @@
 {% block navbar %}
 <nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
-      <a class="navbar-item" href="#">Home</a>
+      <a class="navbar-item" href="/users/user-dashboard">Home</a>
       <a class="navbar-item" href="/messages">Messages</a>
-      <a class="navbar-item" href="/todo">Todo List</a>
-      <a class="navbar-item" href="/chores">Chore List</a>
+
+
+
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link" href="/todo_list">To Do List</a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="/todo_list">Show Items</a>
+          <a class="navbar-item" href="/todo_list/add-new-item-form">Add New Item</a>
+        </div>
+      </div>
+
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link" href="/chores">Chore List</a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="/chores">Show Chores</a>
+          <a class="navbar-item" href="/chores/add-new-chore-form">Add New Chore</a>
+        </div>
+      </div>
 
       <a class="navbar-item" href="/shopping-list">Shopping List</a>
+
       <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">Finances</a>
+        <a class="navbar-link" href="/finances/show-paychecks">Finances</a>
         <div class="navbar-dropdown">
+          <a class="navbar-item" href="/finances/show-paychecks">Show Paychecks</a>
+          <a class="navbar-item" href="/finances/show-bills">Show Bills</a>
           <a class="navbar-item" href="/finances/add-new-bill-form">Add New Bill</a>
           <a class="navbar-item" href="/finances/add-new-paycheck-form">Add New Paycheck</a>
         </div>
@@ -31,6 +43,7 @@
       <div class="navbar-dropdown">
         <a class="navbar-item" href="/users/add-new-user-form">Add New User</a>
         <a class="navbar-item" href="/users/list-users">List Users</a>
+        <a class="navbar-item" href="/email-server/send-email">Email Settings</a>
       </div>
     </div>
   </div>
@@ -40,7 +53,15 @@
       <div class="buttons">
         <!-- <a class="button is-primary"><strong>Sign up</strong></a> -->
         {% if current_user.is_authenticated %}
-          <a class="button is-primary" href="/logout" ><strong>Log Out</strong></a>
+        <span class="navbar-item">
+          <span>
+            <h1 >{{ current_user.name}}</h1>
+          </span>
+          <span>
+            <img src="{{ current_user.image_file_location }}" alt="" >
+          </span>
+        </span>
+          <a class="button is-danger navbar-item" href="/logout" ><strong>Log Out</strong></a>
 
         {% endif %}
       </div>

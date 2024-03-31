@@ -1,7 +1,7 @@
 from flask import redirect
 from flask import url_for
 from flask import render_template
-from flask import request
+from flask import request, flash
 from app.models.todo_model import Item
 from app.models.messages_model import Message
 from app.models.finances_model import Bill, Paycheck
@@ -17,12 +17,39 @@ users_blueprint = Blueprint('users_blueprint', __name__, template_folder='./temp
 
 
 
+@users_blueprint.route('/')
+@users_blueprint.route('user-dashboard')
+@login_required
+def user_dashboard():
+    # return "<h1>users<?h1>"
+    return render_template('users/user-dashboard.html')
+
+
 
 @users_blueprint.route('list-users')
 @login_required
-def index():
+def list_users():
     # return "<h1>users<?h1>"
     return render_template('users/list-users.html', users=User.query.all(), title="List Users")
+
+
+
+
+
+@users_blueprint.route('change-password-form')
+@login_required
+def change_password():
+    user = User.query.get(request.args.get("id"))
+    return render_template('users/change-password-form.html', users=user, title="Change Password")
+
+
+
+@users_blueprint.route('change-icon-form')
+@login_required
+def change_icon():
+    user = User.query.get(request.args.get("id"))
+    return render_template('users/change-icon-form.html', users=user, title="Change Icon")
+
 
 
 
@@ -34,6 +61,63 @@ def add_new_user_form():
 
 
 
+
+@users_blueprint.route('delete-user', methods = ['GET', 'POST'])
+@login_required
+def delete_user():
+    args = request.args
+    user_id = args.get("id")
+    user = User.query.get(user_id)
+
+    if user is None:
+        flash("User not found.", "error")
+        return redirect("/users")
+    else:
+        db.session.delete(user)
+        db.session.commit()
+        flash("User deleted successfully.", "success")
+        return redirect("/users")
+
+
+
+
+@users_blueprint.route('edit-user-form', methods = ['GET', 'POST'])
+@login_required
+def edit_user_form():
+    args = request.args
+    user = User.query.filter_by(id=args.get("id")).first()
+    return render_template('users/edit-user-form.html', title="Edit User", user=user)
+
+
+
+
+@users_blueprint.route('edit-user', methods = ['GET', 'POST'])
+@login_required
+def edit_user():
+    if request.method == 'POST':
+        form_data = request.form.to_dict(flat=False)
+        user = User.query.filter_by(id=form_data["id"][0]).first()
+
+        if form_data["name"][0]:
+            user.name = form_data["name"][0]
+        if form_data["username"][0]:
+            user.username = form_data["username"][0]
+        if form_data["push_device"][0]:
+            user.push_device = form_data["push_device"][0]
+
+        user.privilege = form_data["privilege"][0]
+
+        if request.files['image_file_location']:
+            user_image_file = request.files['image_file_location']
+            user.image_file_location = f"/static/images/{user_image_file.filename}"
+            user_image_file.save("app/static/images/" + user_image_file.filename)
+
+        db.session.add(user)
+        db.session.commit()
+    return redirect("/users")
+
+
+
 @users_blueprint.route('add-new-user', methods = ['GET', 'POST'])
 @login_required
 def add_new_user():
@@ -41,32 +125,10 @@ def add_new_user():
         form_data = request.form.to_dict(flat=False)
         user = User(form_data)
         user.password = form_data["password_hash"][0]
-        f = request.files['image_file_location']
-        print(f"f:{f.filename}")
-        user.image_file_location = f"/static/images/{f.filename}"
-        f.save("app/static/images/" + f.filename)
+        user_image_file = request.files['image_file_location']
+        user.image_file_location = f"/static/images/{user_image_file.filename}"
+        user_image_file.save("app/static/images/" + user_image_file.filename)
 
         db.session.add(user)
         db.session.commit()
-    return redirect("add-new-user-form")
-
-
-
-@users_blueprint.route('add-new-paycheck-form', methods = ['GET', 'POST'])
-@login_required
-def add_new_paycheck_form():
-    return render_template('users/add_new_paycheck_form.html', title="Add New Paycheck", users = User.query.all())
-
-
-
-@users_blueprint.route('add-new-paycheck', methods = ['GET', 'POST'])
-@login_required
-def add_new_message():
-    form_data = request.form.to_dict(flat=False)
-    user = User.query.filter_by(name=form_data["user"][0]).first()
-    # print(f"User:{user}")
-    paycheck = Paycheck(form_data)
-    paycheck.user_id = user._id
-    db.session.add(paycheck)
-    db.session.commit()
     return redirect("/users")

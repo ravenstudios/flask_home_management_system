@@ -3,7 +3,7 @@ from app.models.todo_model import Item
 from app.models.messages_model import Message
 from app.models.users_model import User
 import datetime
-from app.extensions import db
+from app.extensions import db, push_notification
 from flask import Blueprint
 from flask_login import login_required
 
@@ -39,6 +39,8 @@ def add_new_message():
     user = User.query.filter_by(name=form_data["directed_to"][0]).first()
     message = Message(form_data)
     message.user_id = user.id
+
+    push_notification(user.push_device, message.title, message.content)
     db.session.add(message)
     db.session.commit()
     return redirect("/messages")

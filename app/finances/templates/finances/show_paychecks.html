@@ -1,41 +1,125 @@
 {% extends 'base-template.html' %}
 {% block content %}
 
-<style>
-    /* Optional: Styling for highlighting the clickable row */
-    tr.clickable-row:hover {
-        background-color: #f5f5f5;
-        cursor: pointer;
-    }
-</style>
 
 <div class="container">
-  <a href="/messages/add-new-message-form">Add New Message</a>
   <table class="table">
     <thread>
         <tr>
-          <th>Title</th>
-          <th>Content</th>
-          <th>Status</th>
-          <th>Directed To</th>
-          <th>Date Entered</th>
-          <th>Date Read</th>
+          <th></th>
+          <th>User</th>
+          <th>Ammount</th>
+          <th>Notes</th>
+          <th>Date Paid</th>
+          <th>Bills</th>
         </tr>
       </thread>
       <tbody>
-      {% for message in messages %}
 
-        <tr class="clickable-row" onclick="location.href='show-single-message?_id={{ message._id }}';">
+      {% for paycheck in paychecks %}
+
+        <tr>
             <td>
-              <img src={{ message.user.image_file_location }} alt="" class="user-icon">
-            </td>
-            <td>{{ message.title }}</td>
-            <td>{{ message.content }}</td>
-            <td>{{ message.status }}</td>
-            <!-- <td>{{ message.user.name }}</td> -->
+              <a href="add-new-paycheck-form?paycheck_id={{ paycheck.id }}">
+                <span class="icon has-text-warning">
+                  <i class="fas fa-edit"></i>
+                </span>
+              </a>
 
-            <td>{{ message.date_entered }}</td>
-            <td>{{ message.date_read }}</td>
+              <a onclick="confirmDelete('delete-paycheck?paycheck_id={{ paycheck.id }}')">
+                <span class="icon has-text-danger">
+                  <i class="fas fa-trash"></i>
+                </span>
+              </a>
+
+            </td>
+            <td>
+              <img src={{ paycheck.user.image_file_location }} alt="" class="user-icon">
+            </td>
+            <td>${{ paycheck.ammount }}</td>
+            <td>{{ paycheck.notes }}</td>
+            <td>{{ paycheck.date_paid }}</td>
+            <td>
+              <table class="table">
+                <thread>
+                    <tr>
+                      <th>Name</th>
+                      <th>Ammount</th>
+                      <th>Notes</th>
+                      <th>Date Due</th>
+
+                      <th>Is Paid</th>
+                      <th>Add Bill
+                        <a href="add-new-bill-form?paycheck_id={{ paycheck.id }}">
+                          <span class="icon has-text-success">
+                            <i class="fas fa-plus-circle"></i>
+                          </span>
+                        </a>
+                      </th>
+                    </tr>
+                  </thread>
+                  <tbody>
+
+                  {% for bill in paycheck.bills %}
+
+                    <tr>
+                      {{bills_total}}
+                    </tr>
+                    <tr>
+                        <td>{{ bill.name }}</td>
+                        <td>${{ bill.ammount }}</td>
+                        <td>{{ bill.notes }}</td>
+                        <td>{{ bill.date_due }}</td>
+                        <td>
+                          <input type="checkbox" id="is_paid" name="is_paid" {% if bill.is_paid %}checked{% endif %} onchange="checkboxToggle(this, 'toggle-paid?bill_id={{ bill.id }}')">
+                          <label for="is_paid">Paid</label>
+                        </td>
+
+                        <td>
+
+                          <a href="add-new-bill-form?bill_id={{ bill.id }}">
+                            <span class="icon has-text-warning">
+                              <i class="fas fa-edit"></i>
+                            </span>
+                          </a>
+
+
+                          <a onclick="confirmDelete('delete-bill?bill_id={{ bill.id }}')">
+                            <span class="icon has-text-danger">
+                              <i class="fas fa-trash"></i>
+                            </span>
+                          </a>
+                        </td>
+
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+            </td>
+            <td>
+
+                <table >
+                  <thread>
+                    <tr class="is-selected">
+                      <th>Bank</th>
+                      <th>Total Bills</th>
+                      <th>Ballance</th>
+                    </tr>
+                  </thread>
+                  <tbody>
+                    <tr class="is-selected is-warning">
+                      <!-- {% set total = paycheck.bills | sum(attribute='ammount') %} -->
+                      {% set total_unpaid = paycheck.bills | selectattr('is_paid', 'equalto', false) | map(attribute='ammount') | sum %}
+
+                      <td>${{ paycheck.ammount }}</td>
+                      <td>${{ total_unpaid }}</td>
+                      {% set balance = paycheck.ammount - total_unpaid %}
+                      <td>${{ balance }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+            </td>
         </tr>
 
         {% endfor %}
@@ -43,23 +127,7 @@
   </table>
 </div>
 
-<!-- <script type="text/javascript">
-  function checkboxToggle(id){
-    var checkBox = document.getElementById("message_date_completed_" + id);
-    if (checkBox.checked == true){
-      window.location.href = "/messages/toggle-completed?_id=" + id + "&checked=true"
-
-    } else {
-      window.location.href = "/messages/toggle-completed?_id=" + id + "&checked=false"
-    }
-  }
-
-  function confirmDelete(id){
-    if(confirm("Are you sure you want to delete")){
-      window.location.href = "/messages/delete-message?_id=" + id
-    }
-  }
-
-</script> -->
+<script type="text/javascript" src="/static/scripts/confirmDelete.js"></script>
+<script type="text/javascript" src="/static/scripts/checkboxToggle.js"></script>
 
 {% endblock %}

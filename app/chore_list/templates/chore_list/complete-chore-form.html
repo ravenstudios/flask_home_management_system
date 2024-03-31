@@ -1,0 +1,28 @@
+{% extends 'base-template.html' %}
+{% block content %}
+<div id="content">
+  <form class="" action="complete-chore?id={{ chore.id }}" method="post">
+
+
+    <div class="field">
+      <label class="label">Complete Chore: </label>
+      <h1>{{chore.name}}</h1>
+    </div>
+
+    <div class="field">
+      <label class="label">Notes: </label>
+      <h1>{{chore.notes}}</h1>
+    </div>
+
+    <div class="field">
+      <label class="label">Notes To Add</label>
+      <div class="control">
+        <input class="input" type="text" name="notes" placeholder="Text input">
+      </div>
+    </div>
+
+
+    <input type="submit" value="Submit">
+  </form>
+</div>
+{% endblock %}

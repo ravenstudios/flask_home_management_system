@@ -1,19 +1,24 @@
-{% extends 'todo_list/base-template.html' %}
+{% extends 'base-template.html' %}
 {% block content %}
 <div id="content">
-  <form class="" {% if item %}action="add-new-item?_id={{ item._id }}"{% else %}action="add-new-item"{% endif %} method="post">
+  <form class="" {% if item %}action="add-new-item?id={{ item.id }}"{% else %}action="add-new-item"{% endif %} method="post">
     <div class="">
-      {% if item %}<h1>{{ item._id}}</h1> {% endif %}
-      {% if item %}<input type="hidden" name="_id" value="{{ item._id}}">{% endif %}
+
+      {% if item %}<input type="hidden" name="id" value="{{ item.id}}">{% endif %}
       <h1>Add New Item</h1>
 
-      <label for="item_name">Item Name</label>
-      <input type="text" name="item_name" {% if item %}value="{{item.item_name}}"{% endif %}>
+      <label for="name">Item Name</label>
+      <input type="text" name="name" {% if item %}value="{{item.name}}"{% endif %}>
 
-      <label for="item_notes">Item Notes</label>
-      <input type="text" name="item_notes"{% if item %}value="{{item.item_notes}}"{% endif %}>
+      <label for="notes">Item Notes</label>
+      <input type="text" name="notes"{% if item %}value="{{item.notes}}"{% endif %}>
 
-
+      <label for="user">User</label>
+        <select id="user" name="user">
+          {% for user in users %}
+            <option value="{{ user.name }}">{{ user.name }}</option>
+          {% endfor %}
+        </select>
 
 
     <input type="submit" value="Submit">

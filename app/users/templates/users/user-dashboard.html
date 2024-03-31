@@ -1,0 +1,219 @@
+{% extends 'base-template.html' %}
+{% block content %}
+
+{% if current_user.is_authenticated %}
+
+<style>
+    /* Optional: Styling for highlighting the clickable row */
+    tr.clickable-row:hover {
+        background-color: #f5f5f5;
+        cursor: pointer;
+    }
+</style>
+
+
+
+
+<div class="section">
+  <div class="columes">
+    <div class="row columns is-multiline">
+      <!-- MESSAGES -->
+      <div class="colume has-text-centered">
+        <div class="card has-background-info">
+
+          <header class="card-header">
+            <p class="card-header-title card-header-icon" aria-label="more options" onclick="toggleDropdown('messages-dropdown-content')">Messages
+              <span class="icon">
+                <i class="fas fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </p>
+          </header>
+
+          <div id="messages-dropdown-content" class="card-content" style="display: none;">
+            <div class="content">
+              <table class="table" id="user-messages" name="user-messages">
+                <tbody>
+                  <thead>
+                    <tr >
+                      <th>Title</th>
+                      <th>Message</th>
+                    </tr>
+                  </thead>
+
+                  {% for message in current_user.messages %}
+                    <tr class="clickable-row" onclick="location.href='/messages/show-single-message?id={{ message.id }}';">
+                      <td>{{message.title}}</td>
+                      <td>{{message.content}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+
+              <footer class="card-footer">
+                <a href="#" class="card-footer-item">Save</a>
+                <a href="#" class="card-footer-item">Edit</a>
+                <a href="#" class="card-footer-item">Delete</a>
+              </footer>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+      <!-- END MESSAGES -->
+
+      <!-- CHORES -->
+      <div class="colume">
+        <div class="card has-background-info">
+
+          <header class="card-header">
+
+
+            <p class="card-header-title card-header-icon" aria-label="more options" onclick="toggleDropdown('chores-dropdown-content')">Chores
+              <span class="icon">
+                <i class="fas fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </p>
+          </header>
+
+          <div id="chores-dropdown-content" class="card-content" style="display: none;">
+            <div class="content">
+              <table class="table column" id="user-chores" name="user-chores">
+                <tbody>
+                  <thead>
+                    <tr >
+                      <th>Name</th>
+                      <th>Notes</th>
+                    </tr>
+                  </thead>
+
+                  {% for chore in current_user.chores %}
+                    {% if not chore.completed %}
+                    <tr class="clickable-row" onclick="location.href='/chores/complete-chore-form?id={{ chore.id }}';">
+                      <td>{{chore.name}}</td>
+                      <td>{{chore.notes}}</td>
+                    </tr>
+                    {% endif %}
+                  {% endfor %}
+                </tbody>
+              </table>
+
+              <footer class="card-footer">
+                <a href="#" class="card-footer-item">Save</a>
+                <a href="#" class="card-footer-item">Edit</a>
+                <a href="#" class="card-footer-item">Delete</a>
+              </footer>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+      <!-- END CHORES -->
+
+      <!-- TO TO LIST -->
+      <div class="colume">
+        <div class="card has-background-info">
+
+          <header class="card-header">
+            <p class="card-header-title card-header-icon" aria-label="more options" onclick="toggleDropdown('todo-dropdown-content')">To Do List
+              <span class="icon">
+                <i class="fas fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </p>
+          </header>
+
+          <div id="todo-dropdown-content" class="card-content" style="display: none;">
+            <div class="content">
+              <table class="table column" id="user-chores" name="user-chores">
+                <tbody>
+                  <thead>
+                    <tr >
+                      <th>Name</th>
+                      <th>notes</th>
+                    </tr>
+                  </thead>
+
+                  {% for item in current_user.todo_list %}
+                    <tr class="clickable-row" onclick="location.href='/todo_list/show-single-item?id={{ item.id }}';">
+                      <td>{{item.name}}</td>
+                      <td>{{item.notes}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+
+              <footer class="card-footer">
+                <a href="#" class="card-footer-item">Save</a>
+                <a href="#" class="card-footer-item">Edit</a>
+                <a href="#" class="card-footer-item">Delete</a>
+              </footer>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END TO TO LIST -->
+
+      <!-- SETTINGS -->
+      <div class="colume">
+        <div class="card has-background-info">
+
+          <header class="card-header">
+            <p class="card-header-title card-header-icon" aria-label="more options" onclick="toggleDropdown('settings-dropdown-content')">Settings
+              <span class="icon">
+                <i class="fas fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </p>
+          </header>
+
+          <div id="settings-dropdown-content" class="card-content" style="display: none;">
+            <div class="content">
+              <a href="/users/change-password-form?id={{ current_user.id }}">
+                <p>
+                  Change Password
+                </p>
+              </a>
+
+              <a href="/users/change-icon-form?id={{ current_user.id }}">
+                <p>
+                  Change Icon
+                </p>
+              </a>
+
+              <a href="/users/edit-user-form?id={{ current_user.id }}">
+                <p>
+                  Change Settings
+                </p>
+              </a>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END SETTINGS -->
+
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  function toggleDropdown(id) {
+    var dropdownContent = document.getElementById(id);
+    dropdownContent.style.display = (dropdownContent.style.display === "none") ? "block" : "none";
+  }
+</script>
+
+
+
+
+
+
+<!-- <script type="text/javascript" src="/static/scripts/confirmDelete.js"></script> -->
+
+{% endif %}
+{% endblock %}

@@ -6,13 +6,16 @@ import datetime
 
 class Bill(db.Model):
     __tablename__ = "bills"
-    _id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
     ammount = db.Column(db.Integer)
     notes = db.Column(db.String(100))
     date_due = db.Column(db.Date())
     date_paid = db.Column(db.Date())
     is_paid = db.Column(db.Boolean())
+
+    paycheck_id = db.Column(db.Integer, db.ForeignKey('paychecks.id'))
+    paycheck = db.relationship("Paycheck", back_populates="bills")
 
 
     def __init__(self, bill):
@@ -28,7 +31,7 @@ class Bill(db.Model):
 
     def __repr__(self):
         return {
-            "_id":self._id,
+            "id":self.id,
             "name":self.name,
             "ammount":self.ammount,
             "notes":self.notes,
@@ -41,18 +44,19 @@ class Bill(db.Model):
 
 class Paycheck(db.Model):
     __tablename__ = "paychecks"
-    _id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     ammount = db.Column(db.Integer)
     notes = db.Column(db.String(100))
     date_paid = db.Column(db.Date())
 
 
+
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = db.relationship("User", back_populates="paychecks")
-
+    bills = db.relationship("Bill", back_populates="paycheck")
 
     def __init__(self, paycheck):
-        self.amount = float(paycheck.get("amount", [0])[0])
+        self.ammount = float(paycheck.get("ammount", [0])[0])
         self.notes = paycheck.get("notes", [""])[0]
         date = paycheck.get("date_paid", [""])[0]
         self.date_paid = datetime.datetime.strptime(date, '%Y-%m-%d').date()
@@ -61,7 +65,7 @@ class Paycheck(db.Model):
 
     def __repr__(self):
         return {
-            "_id":self._id,
+            "id":self.id,
             "name":self.name,
             "ammount":self.ammount,
             "notes":self.notes,
