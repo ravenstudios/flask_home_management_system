@@ -18,7 +18,7 @@ def login_form():
         admin_user = {
             "name": ["admin"],
             "username": ["admin"],
-            "push_device": "",
+            "push_device": "Robs_iPhone",
         }
         new_user = User(admin_user)
         new_user.privilege = 2
