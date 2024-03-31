@@ -17,7 +17,7 @@
     <label for="image_file_location">Icon</label>
       <input type="file" name="image_file_location" />
 
-    {% if user.privilege == 2 %}
+    {% if current_user.privilege == 2 %}
     <label for="privilege">Privilege</label>
       <select id="privilege" name="privilege">
         {% for i in range(3) %}
