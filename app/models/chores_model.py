@@ -20,14 +20,14 @@ class Chore(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = db.relationship("User", back_populates="chores", foreign_keys=[user_id])
 
-<<<<<<< HEAD
+# <<<<<<< HEAD
     def __init__(self, item):
         self.name = item["name"][0]
         self.title = message["title"][0]
 
         self.notes = item["notes"][0]
         self.is_completed = False
-=======
+# =======
     from_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     from_user = db.relationship("User", back_populates="chores_created", foreign_keys=[from_user_id])
 
@@ -35,7 +35,7 @@ class Chore(db.Model):
         self.name = chore["name"][0]
         self.notes = chore["notes"][0]
         self.completed = False
->>>>>>> origin
+# >>>>>>> origin
 
         self.repeat_time = chore["repeat_time"][0]
         self.date_entered = datetime.now()

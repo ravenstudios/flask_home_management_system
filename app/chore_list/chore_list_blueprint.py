@@ -59,11 +59,11 @@ def complete_chore():
 
 
     form_data = request.form.to_dict(flat=False)
-<<<<<<< HEAD
+# <<<<<<< HEAD
     user = User.query.filter_by(name=form_data["directed_to"][0]).first()
     chore = Chore(form_data)
     chore.user_id = user.id
-=======
+# =======
     # append Notes
     new_notes = form_data.get("notes")[0]
     new_notes += "\n"
@@ -155,7 +155,7 @@ def show_single_chore():
 def uncomplete_chore():
     chore = Chore.query.get(request.args.get('id'))
     chore.completed = False
->>>>>>> origin
+# >>>>>>> origin
     db.session.add(chore)
     db.session.commit()
     return redirect("/chores")

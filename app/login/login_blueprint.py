@@ -20,7 +20,10 @@ def login_form():
             "username": ["admin"],
             "push_device": "Robs_iPhone",
         }
+
+
         new_user = User(admin_user)
+        new_user.image_file_location =  "/static/images/admin.png"
         new_user.privilege = 2
 
         db.session.add(new_user)
