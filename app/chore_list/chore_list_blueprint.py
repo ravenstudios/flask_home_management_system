@@ -32,7 +32,9 @@ def add_new_item_form():
 @login_required
 def add_new_item():
     form_data = request.form.to_dict(flat=False)
+    user = User.query.filter_by(name=form_data["directed_to"][0]).first()
     chore = Chore(form_data)
+    chore.user_id = user.id
     db.session.add(chore)
     db.session.commit()
     return redirect("/chores")

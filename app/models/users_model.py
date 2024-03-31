@@ -12,6 +12,8 @@ class User(db.Model, UserMixin):
     image_file_location = db.Column(db.String(300))
     privilege = db.Column(db.Integer, default=0)#    0:user, 1:elevated, 2:admin
     messages = db.relationship("Message", back_populates="user")
+    chores = db.relationship("Chore", back_populates="user")
+
     paychecks = db.relationship("Paycheck", back_populates="user")
     # shopping_list_item_requests = db.relationship("Shopping_list", back_populates="users")
 

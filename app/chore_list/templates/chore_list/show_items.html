@@ -14,6 +14,7 @@
   <table class="table">
     <thread>
         <tr>
+          <th>Given To</th>
           <th>Name</th>
           <th>Notes</th>
           <th>Date Entered</th>
@@ -25,9 +26,13 @@
       </thread>
       <tbody>
       {% for chore in chores %}
+        <tr class="clickable-row" onclick="location.href='show-single-message?id={{ message.id }}';">
+            <td>
+              <img src={{ chore.user.image_file_location }} alt="" class="user-icon">
+            </td>
 
         <tr>
-
+            <td>{{ chore.title }}</td>
             <td>{{ chore.name }}</td>
             <td>{{ chore.notes }}</td>
             <td>{{ chore.date_entered }}</td>
