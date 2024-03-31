@@ -1,0 +1,112 @@
+{% extends 'base-template.html' %}
+{% block content %}
+
+
+<div class="container">
+
+  <label for="chores">Chores:</label>
+    <table class="table" id="chores" name="chores">
+      <thread>
+          <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Notes</th>
+            <th>Date Entered</th>
+            <th>From</th>
+            <th>Repeated Chore</th>
+            <th>Repeat Time</th>
+            <th>Edit</th>
+          </tr>
+        </thread>
+        <tbody>
+        {% for chore in chores %}
+          {% if not chore.completed %}
+          <tr>
+              <td>
+                <img src="{{chore.user.image_file_location}}" alt="" class="user-icon">
+              </td>
+              <td>{{ chore.name }}</td>
+              <td>{{ chore.notes }}</td>
+              <td>{{ chore.date_entered }}</td>
+              <td>
+                <img src="{{chore.from_user.image_file_location}}" alt="" class="user-icon">
+              </td>
+              <td>{{ chore.repeat }}</td>
+              <td>{{ chore.repeat_time }}</td>
+              <td>
+                {% if current_user.id == chore.from_user_id or current_user.privilege == 2 %}
+                <a href="add-new-chore-form?id={{ chore.id }}">
+                  <span class="icon has-text-warning">
+                    <i class="fas fa-edit"></i>
+                  </span>
+                </a>
+                <a onclick="confirmDelete({{ chore.id }})">
+                  <span class="icon has-text-danger">
+                    <i class="fas fa-trash"></i>
+                  </span>
+                </a>
+                {% endif %}
+
+              </td>
+
+
+          </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+    </table>
+
+    <label for="completed-chores">Completed Chores:</label>
+      <table class="table" id="completed-chores" name="completed-chores">
+        <thread>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Notes</th>
+              <th>Date Entered</th>
+              <th>Delete</th>
+              <th>Un-Complete</th>
+            </tr>
+          </thread>
+          <tbody>
+          {% for chore in chores %}
+            {% if chore.completed %}
+            <tr>
+              <td>
+                <img src="{{chore.user.image_file_location}}" alt="" class="user-icon">
+              </td>
+              <td>{{ chore.name }}</td>
+              <td>{{ chore.notes }}</td>
+              <td>{{ chore.date_entered }}</td>
+
+              {% if current_user.id == chore.from_user_id or current_user.privilege == 2 %}
+                <td><button type="button" name="delete" onclick="confirmDelete({{ chore.id }})">Delete</button></td>
+                <td><button type="button" name="complete" onclick="location.href='/chores/un-complete-chore?id={{ chore.id }}';">Un-Complete</button></td>
+              {% endif %}
+            </tr>
+              {% endif %}
+            {% endfor %}
+          </tbody>
+      </table>
+</div>
+
+
+<script type="text/javascript">
+  function confirmComplete(id){
+    if(confirm("Are you sure you completed the chore?")){
+      window.location.href = "/chores/complete-chore-form?id=" + id
+    }
+  }
+</script>
+
+<script type="text/javascript">
+  function confirmDelete(id){
+    if(confirm("Are you sure you want to ")){
+      window.location.href = "/chores/delete-chore?id=" + id
+    }
+  }
+</script>
+
+
+
+{% endblock %}

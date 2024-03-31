@@ -1,7 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 
-from flask import current_app
-
+#
 
 db = SQLAlchemy()
 
@@ -20,4 +19,14 @@ def push_notification(push_device, title, content):
         }
 
     x = requests.post(url, json = myobj)
-    print(x)
+
+
+def reset_chores(app):
+
+    with app.app_context():
+        from app.models.chores_model import Chore
+        chores_to_update = Chore.query.filter(Chore.completed == True, Chore.repeated == True).all()
+        for chore in chores_to_update:
+            chore.completed = False
+
+        db.session.commit()

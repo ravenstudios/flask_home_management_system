@@ -1,5 +1,5 @@
 from app.extensions import db
-import datetime
+from datetime import datetime
 
 
 
@@ -11,16 +11,22 @@ class Chore(db.Model):
     completed = db.Column(db.Boolean())
     date_entered = db.Column(db.Date())
 
+    repeat = db.Column(db.Boolean())
+    repeat_time = db.Column(db.Integer)
+
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    user = db.relationship("User", back_populates="chores")
+    user = db.relationship("User", back_populates="chores", foreign_keys=[user_id])
 
+    from_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    from_user = db.relationship("User", back_populates="chores_created", foreign_keys=[from_user_id])
 
-    def __init__(self, item):
-        self.name = item["name"][0]
-        self.notes = item["notes"][0]
+    def __init__(self, chore):
+        self.name = chore["name"][0]
+        self.notes = chore["notes"][0]
         self.completed = False
 
-        self.date_entered = datetime.datetime.now()
+        self.repeat_time = chore["repeat_time"][0]
+        self.date_entered = datetime.now()
 
 
     def __repr__(self):

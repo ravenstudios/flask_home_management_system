@@ -1,6 +1,8 @@
 from app.extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from app.models.chores_model import Chore
+
 
 class User(db.Model, UserMixin):
     __tablename__ = "users"
@@ -13,7 +15,9 @@ class User(db.Model, UserMixin):
     privilege = db.Column(db.Integer, default=0)#    0:user, 1:elevated, 2:admin
     messages = db.relationship("Message", back_populates="user")
     paychecks = db.relationship("Paycheck", back_populates="user")
-    chores = db.relationship("Chore", back_populates="user")
+    chores = db.relationship("Chore", back_populates="user", foreign_keys=[Chore.user_id])
+
+    chores_created = db.relationship("Chore", back_populates="from_user", foreign_keys=[Chore.from_user_id])
     todo_list = db.relationship("Item", back_populates="user")
 
     # shopping_list_item_requests = db.relationship("Shopping_list", back_populates="users")

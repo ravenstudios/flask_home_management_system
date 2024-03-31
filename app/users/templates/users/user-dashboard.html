@@ -67,6 +67,8 @@
         <div class="card has-background-info">
 
           <header class="card-header">
+
+
             <p class="card-header-title card-header-icon" aria-label="more options" onclick="toggleDropdown('chores-dropdown-content')">Chores
               <span class="icon">
                 <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -86,11 +88,13 @@
                   </thead>
 
                   {% for chore in current_user.chores %}
-                    <tr class="clickable-row" onclick="location.href='/chores/show-chore?id={{ chore.id }}';">
+                    {% if not chore.completed %}
+                    <tr class="clickable-row" onclick="location.href='/chores/complete-chore-form?id={{ chore.id }}';">
                       <td>{{chore.name}}</td>
                       <td>{{chore.notes}}</td>
                     </tr>
-                    {% endfor %}
+                    {% endif %}
+                  {% endfor %}
                 </tbody>
               </table>
 
