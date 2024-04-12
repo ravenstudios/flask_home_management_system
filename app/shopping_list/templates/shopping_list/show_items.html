@@ -10,34 +10,122 @@
 </style>
 
 <div class="container">
-  <a href="add-new-item-form">Add New Item</a>
+  <h1>Current Items Needed</h1>
+  <a href="add-new-item-form">
+    <button type="button" name="delete">Add New Item</button>
+  </a>
+
+  <button type="button" name="delete" onclick="deleteItems()">Delete</button>
+
   <table class="table">
     <thread>
         <tr>
           <th>Name</th>
-          <th>Notes</th>
+          <th>Date</th>
+          <th>From</th>
+          <th>Priority</th>
+          <th>Save For Later</th>
           <th>Delete</th>
+
 
         </tr>
       </thread>
       <tbody>
-      {% for item in items %}
+      {% if items %}
+        {% for item in items %}
+          {% if not item.save_for_later %}
+            <tr>
 
-        <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.date_entered }}</td>
+                <td>
+                  <img src="{{ item.user.image_file_location }}" alt="" class="user-icon">
+                </td>
 
-            <td>{{ item.name }}</td>
-            <td>{{ item.notes }}</td>
-            <td><button type="button" name="delete" onclick="confirmDelete({{ item.id }})">Delete</button></td>
+                <td>
+                  <input type="checkbox" id="is_priority_{{ item.id }}" onclick="toggleState('is_priority_{{ item.id }}', '/shopping-list/is-priority?id={{item.id}}')"
+                     {% if item.is_priority %} checked {% endif %}>
+                     <label for="is_priority">Priority</label>
+                </td>
+
+                <td>
+                    <input type="checkbox" id="save_for_later_{{ item.id }}" onclick="toggleState('save_for_later_{{ item.id }}', '/shopping-list/save-for-later?id={{item.id}}')"
+                       {% if item.save_for_later %} checked {% endif %}>
+                       <label for="save_for_later">Save For Later</label>
+                </td>
+
+                <td>
+                  <input type="checkbox" class="to-be-deleted" id="{{ item.id }}">
+                     <label for="delete">Delete</label>
+                </td>
 
 
 
-        </tr>
-
+            </tr>
+          {% endif %}
         {% endfor %}
+      {% endif %}
       </tbody>
   </table>
 </div>
 
+
+<div class="container">
+  <h1>Save For Later</h1>
+  <table class="table">
+    <thread>
+        <tr>
+          <th>Name</th>
+          <th>Date</th>
+          <th>From</th>
+          <th>Priority</th>
+          <th>Save For Later</th>
+          <th>Delete</th>
+
+
+        </tr>
+      </thread>
+      <tbody>
+      {% if items %}
+        {% for item in items %}
+          {% if item.save_for_later %}
+            <tr>
+
+                <td>{{ item.name }}</td>
+                <td>{{ item.date_entered }}</td>
+                <td>
+                  <img src="{{ item.user.image_file_location }}" alt="" class="user-icon">
+                </td>
+
+                <td>
+                  <input type="checkbox" id="is_priority_{{ item.id }}" onclick="toggleState('is_priority_{{ item.id }}', '/shopping-list/is-priority?id={{item.id}}')"
+                     {% if item.is_priority %} checked {% endif %}>
+                     <label for="is_priority">Priority</label>
+                </td>
+
+                <td>
+                    <input type="checkbox" id="save_for_later_{{ item.id }}" onclick="toggleState('save_for_later_{{ item.id }}', '/shopping-list/save-for-later?id={{item.id}}')"
+                       {% if item.save_for_later %} checked {% endif %}>
+                       <label for="save_for_later">Save For Later</label>
+                </td>
+
+                <td>
+                  <input type="checkbox" class="to-be-deleted" id="{{ item.id }}">
+                     <label for="delete">Delete</label>
+                </td>
+
+
+
+            </tr>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+      </tbody>
+  </table>
+
+
+
+</div>
 <script type="text/javascript">
   function confirmDelete(id){
     if(confirm("Are you sure you want to delete")){
@@ -46,5 +134,44 @@
   }
 
 </script>
+
+
+<script>
+  function toggleState(elem, url){
+    var checkbox = document.getElementById(elem);
+    checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                window.location.href = url + "&state=True"
+            } else {
+                window.location.href = url + "&state=False"
+            }
+        });
+
+  }
+</script>
+
+
+<script>
+  function deleteItems(){
+
+    var checkboxes = document.getElementsByClassName('to-be-deleted');
+
+    var ids = [];
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                ids.push(checkboxes[i].id)
+              }
+
+        }
+
+        if(ids.length > 0){
+          var idsString = ids.join(',');
+          window.location.href = "/shopping-list/delete-items?ids=" + idsString;
+        }
+
+
+  }
+</script>
+
 
 {% endblock %}
