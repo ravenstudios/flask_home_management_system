@@ -59,11 +59,7 @@ def complete_chore():
 
 
     form_data = request.form.to_dict(flat=False)
-# <<<<<<< HEAD
-    user = User.query.filter_by(name=form_data["directed_to"][0]).first()
-    chore = Chore(form_data)
-    chore.user_id = user.id
-# =======
+
     # append Notes
     new_notes = form_data.get("notes")[0]
     new_notes += "\n"
@@ -76,20 +72,7 @@ def complete_chore():
     chore.completed = True
     # send copy of completed chore to parents
 
-    new_chore = Chore(
-        {
-            "name":["COMPLETED: " + chore.name],
-            "notes":[chore.notes],
-            "completed":[False],
-            "date_entered":[chore.date_entered],
-            "repeat_time":[chore.repeat_time],
-        }
-    )
-
-    new_chore.repeat = chore.repeat
-    new_chore.user_id = chore.from_user_id
-    new_chore.from_user_id = chore.user_id
-    # push to parents
+    
 
     message = f"Chore: {chore.name} completed"
     conent = f"Completed at {datetime.now()}"
