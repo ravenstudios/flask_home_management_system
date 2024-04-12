@@ -9,7 +9,6 @@ class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
     content = db.Column(db.String(300))
-    status = db.Column(db.String(30))
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = db.relationship("User", back_populates="messages")
@@ -23,7 +22,6 @@ class Message(db.Model):
     def __init__(self, message):
         self.title = message["title"][0]
         self.content = message["content"][0]
-        self.status = message["status"][0]
         self.date_entered = datetime.datetime.now()
         self.date_read = None
 
@@ -34,7 +32,6 @@ class Message(db.Model):
             # "item_priority":self.item_priority,
             "title":self.title,
             "content":self.content,
-            "status":self.item_completed,
             "directed_to":self.directed_to,
             "date_entered":self.date_entered,
             "date_read":self.date_read,
