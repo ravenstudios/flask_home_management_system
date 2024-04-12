@@ -72,19 +72,18 @@ def complete_chore():
     chore.completed = True
     # send copy of completed chore to parents
 
-    
+
 
     message = f"Chore: {chore.name} completed"
-    conent = f"Completed at {datetime.now()}"
+    content = f"Completed at {datetime.now()}"
     push_notification(
         chore.from_user.push_device,
         message,
-        conent
+        content
     )
 
 
     db.session.add(chore)
-    db.session.add(new_chore)
     db.session.commit()
     return redirect("/chores")
     # return render_template('chore_list/complete-chore-form.html', chore=chore)
