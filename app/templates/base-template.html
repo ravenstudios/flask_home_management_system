@@ -17,13 +17,14 @@
     {% endwith %}
 
     <section class="section">
-      <div class="container">
+      <div class="content">
         {% if current_user.is_authenticated %}
         {% include 'navbar.html' %}
         {% endif %}
         <h1 class="title is-1">{{ title }}</h1>
 
         {% block content %} {% endblock %}
+      </div>
     </section>
   </body>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/js/all.min.js'></script>

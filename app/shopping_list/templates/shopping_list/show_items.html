@@ -1,131 +1,138 @@
 {% extends 'base-template.html' %}
 {% block content %}
 
-<style>
-    /* Optional: Styling for highlighting the clickable row */
-    tr.clickable-row:hover {
-        background-color: #f5f5f5;
-        cursor: pointer;
-    }
-</style>
+  <nav class="level">
+    <div class="level-left">
+      <h1 class="level-item">Current Items Needed</h1>
+      <a class="level-item" href="add-new-item-form">
+        <button type="button" name="delete">Add New Item</button>
+      </a>
+      <button class="level-item" type="button" name="delete" onclick="deleteItems()">Delete</button>
+    </div>
 
-<div class="container">
-  <h1>Current Items Needed</h1>
-  <a href="add-new-item-form">
-    <button type="button" name="delete">Add New Item</button>
-  </a>
-
-  <button type="button" name="delete" onclick="deleteItems()">Delete</button>
-
-  <table class="table">
-    <thread>
-        <tr>
-          <th>Name</th>
-          <th>Date</th>
-          <th>From</th>
-          <th>Priority</th>
-          <th>Save For Later</th>
-          <th>Delete</th>
+  </nav>
 
 
-        </tr>
-      </thread>
-      <tbody>
-      {% if items %}
-        {% for item in items %}
-          {% if not item.save_for_later %}
-            <tr>
+  <div class="curent-items notification is-success">
+    {% if items %}
+      {% for item in items %}
+        {% if not item.save_for_later %}
+          <nav class="level notification {% if item.is_priority %} is-danger {% else %} is-success is-light {% endif %}">
+          <!-- Left side -->
+          <div class="level-left">
+            <div class="level-item">
+              <h1 class=" is-5"><strong>{{ item.name }}</strong></h1>
+            </div>
+            <div class="level-item">
+              <p>
+                Date: {{ item.date_entered }}
+              </p>
+            </div>
+            <div class="level-item">
+              Added By:
+              <figure class="image is-24x24">
+                <img class="is-rounded" src="{{ item.user.image_file_location }}">
+              </figure>
+            </div>
+          </div>
 
-                <td>{{ item.name }}</td>
-                <td>{{ item.date_entered }}</td>
-                <td>
-                  <img src="{{ item.user.image_file_location }}" alt="" class="user-icon">
-                </td>
+          <div class="level-right">
+            <div class="level-item">
+              <label class="checkbox ">
+                <input type="checkbox"  id="is_priority_{{ item.id }}" onclick="toggleState('is_priority_{{ item.id }}', '/shopping-list/is-priority?id={{item.id}}')"
+                   {% if item.is_priority %} checked {% endif %}>
+                Priority
+              </label>
+            </div>
 
-                <td>
-                  <input type="checkbox" id="is_priority_{{ item.id }}" onclick="toggleState('is_priority_{{ item.id }}', '/shopping-list/is-priority?id={{item.id}}')"
-                     {% if item.is_priority %} checked {% endif %}>
-                     <label for="is_priority">Priority</label>
-                </td>
+            <div class="level-item">
+              <label class="checkbox">
+                <input type="checkbox"  id="save_for_later_{{ item.id }}" onclick="toggleState('save_for_later_{{ item.id }}', '/shopping-list/save-for-later?id={{item.id}}')"
+                   {% if item.save_for_later %} checked {% endif %}>
+                Save For Later
+              </label>
+            </div>
 
-                <td>
-                    <input type="checkbox" id="save_for_later_{{ item.id }}" onclick="toggleState('save_for_later_{{ item.id }}', '/shopping-list/save-for-later?id={{item.id}}')"
-                       {% if item.save_for_later %} checked {% endif %}>
-                       <label for="save_for_later">Save For Later</label>
-                </td>
-
-                <td>
-                  <input type="checkbox" class="to-be-deleted" id="{{ item.id }}">
-                     <label for="delete">Delete</label>
-                </td>
-
-
-
-            </tr>
-          {% endif %}
-        {% endfor %}
-      {% endif %}
-      </tbody>
-  </table>
-</div>
+            <div class="level-item">
+              <label class="checkbox">
+                <input type="checkbox" class="to-be-deleted" class="" id="{{ item.id }}">
+                Delete
+              </label>
+            </div>
 
 
-<div class="container">
+
+
+
+
+          </div>
+        </nav>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </div>
+
+
   <h1>Save For Later</h1>
-  <table class="table">
-    <thread>
-        <tr>
-          <th>Name</th>
-          <th>Date</th>
-          <th>From</th>
-          <th>Priority</th>
-          <th>Save For Later</th>
-          <th>Delete</th>
+  <div class="save-for-later-items notification is-warning">
+    {% if items %}
+      {% for item in items %}
+        {% if item.save_for_later %}
+          <nav class="level notification {% if item.is_priority %} is-danger {% else %} is-success is-light {% endif %}">
+          <!-- Left side -->
+          <div class="level-left">
+            <div class="level-item">
+              <h1 class=" is-5"><strong>{{ item.name }}</strong></h1>
+            </div>
+            <div class="level-item">
+              Date: {{ item.date_entered }}
+            </div>
+            <div class="level-item">
+              Added By:
+              <figure class="image is-24x24">
+                <img class="is-rounded" src="{{ item.user.image_file_location }}">
+              </figure>
+            </div>
+          </div>
 
+          <div class="level-right">
+            <div class="level-item">
+              <label class="checkbox ">
+                <input type="checkbox"  id="is_priority_{{ item.id }}" onclick="toggleState('is_priority_{{ item.id }}', '/shopping-list/is-priority?id={{item.id}}')"
+                   {% if item.is_priority %} checked {% endif %}>
+                Priority
+              </label>
+            </div>
 
-        </tr>
-      </thread>
-      <tbody>
-      {% if items %}
-        {% for item in items %}
-          {% if item.save_for_later %}
-            <tr>
+            <div class="level-item">
+              <label class="checkbox">
+                <input type="checkbox"  id="save_for_later_{{ item.id }}" onclick="toggleState('save_for_later_{{ item.id }}', '/shopping-list/save-for-later?id={{item.id}}')"
+                   {% if item.save_for_later %} checked {% endif %}>
+                Save For Later
+              </label>
+            </div>
 
-                <td>{{ item.name }}</td>
-                <td>{{ item.date_entered }}</td>
-                <td>
-                  <img src="{{ item.user.image_file_location }}" alt="" class="user-icon">
-                </td>
-
-                <td>
-                  <input type="checkbox" id="is_priority_{{ item.id }}" onclick="toggleState('is_priority_{{ item.id }}', '/shopping-list/is-priority?id={{item.id}}')"
-                     {% if item.is_priority %} checked {% endif %}>
-                     <label for="is_priority">Priority</label>
-                </td>
-
-                <td>
-                    <input type="checkbox" id="save_for_later_{{ item.id }}" onclick="toggleState('save_for_later_{{ item.id }}', '/shopping-list/save-for-later?id={{item.id}}')"
-                       {% if item.save_for_later %} checked {% endif %}>
-                       <label for="save_for_later">Save For Later</label>
-                </td>
-
-                <td>
-                  <input type="checkbox" class="to-be-deleted" id="{{ item.id }}">
-                     <label for="delete">Delete</label>
-                </td>
-
-
-
-            </tr>
-          {% endif %}
-        {% endfor %}
-      {% endif %}
-      </tbody>
-  </table>
+            <div class="level-item">
+              <label class="checkbox">
+                <input type="checkbox" class="to-be-deleted" class="" id="{{ item.id }}">
+                Delete
+              </label>
+            </div>
 
 
 
-</div>
+
+
+
+          </div>
+        </nav>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </div>
+
+
+
 <script type="text/javascript">
   function confirmDelete(id){
     if(confirm("Are you sure you want to delete")){
