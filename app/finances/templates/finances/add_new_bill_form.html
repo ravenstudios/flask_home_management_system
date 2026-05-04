@@ -1,0 +1,33 @@
+{% extends 'base-template.html' %}
+{% block content %}
+<div id="content">
+  <form class="" {% if bill %}action="add-new-bill?bill_id={{ bill.id }}"{% else %}action="add-new-bill"{% endif %} method="post">
+
+    {% if bill %}<input type="hidden" name="id" value="{{ bill.id}}">{% endif %}
+
+    <label for="name">Name</label>
+      <input type="text" name="name" {% if bill %}value="{{bill.name}}"{% endif %}>
+
+    <label for="ammount">Ammount</label>
+      <input type="text" name="ammount"{% if bill %}value="{{bill.ammount}}"{% endif %}>
+
+    <label for="notes">Notes</label>
+      <input type="text" name="notes"{% if bill %}value="{{bill.notes}}"{% endif %}>
+
+    <label for="date_due">Date Due</label>
+      <input type="date" id="date_due" name="date_due"
+       value="{% if bill and bill.date_due %}{{ bill.date_due.strftime('%Y-%m-%d') }}{% else %}{{ today }}{% endif %}">
+
+    <!-- <h1>{{ paycheck_id }}</h1> -->
+    <label for="paycheck_id">Add To Paycheck</label>
+      <select id="paycheck_id" name="paycheck_id">
+        {% for paycheck in paychecks %}
+          <option value="{{ paycheck.id }}" {% if paycheck.id|string == paycheck_id|string or (bill and paycheck.id|string == bill.paycheck.id|string) %} selected {% endif %}>
+            {{ paycheck.user.name }}, {{ paycheck.date_paid }}, {{ paycheck.ammount }}
+          </option>
+        {% endfor %}
+      </select>
+    <input type="submit" value="Submit">
+  </form>
+</div>
+{% endblock %}

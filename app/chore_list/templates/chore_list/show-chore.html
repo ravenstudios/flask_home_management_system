@@ -1,0 +1,24 @@
+{% extends 'base-template.html' %}
+{% block content %}
+
+  <div class="container">
+    <h1>{{ chore.name }}</h1>
+    <p>{{ chore.notes}}</p>
+    <p>{{ chore.completed}}</p>
+    <p>{{ chore.date_entered}}</p>
+    <p>{{ chore.user.name}}</p>
+    <p>{{ chore.notes}}</p>
+    <p>{{ chore.notes}}</p>
+
+
+    <button type="button" name="delete" onclick="confirmDelete({{ chore.id }})">Delete</button>
+  </div>
+
+  <script type="text/javascript">
+    function confirmDelete(id){
+      if(confirm("Are you sure you want to delete")){
+        window.location.href = "delete-chore?id=" + id
+      }
+    }
+  </script>
+{% endblock %}

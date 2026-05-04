@@ -1,0 +1,20 @@
+{% extends 'base-template.html' %}
+{% block content %}
+
+  <div class="container">
+    <h1>{{ message.title }}</h1>
+    <p>{{ message.content}}</p>
+    <p>To:  {{ message.directed_to }}</p>
+    <p>Date Entered:  {{ message.date_entered }}</p>
+    <p>Date Read:  {{ message.date_read }}</p>
+    <button type="button" name="delete" onclick="confirmDelete({{ message.id }})">Delete</button>
+  </div>
+
+  <script type="text/javascript">
+    function confirmDelete(id){
+      if(confirm("Are you sure you want to delete")){
+        window.location.href = "delete-message?id=" + id
+      }
+    }
+  </script>
+{% endblock %}

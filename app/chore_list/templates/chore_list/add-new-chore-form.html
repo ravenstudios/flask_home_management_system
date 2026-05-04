@@ -1,0 +1,81 @@
+{% extends 'base-template.html' %}
+{% block content %}
+<div id="content">
+  <form class="" {% if chore %} action="add-new-chore?id={{chore.id}}" {% else %} action="add-new-chore" {% endif %} method="post">
+
+    <div class="field">
+      <label class="label">Name</label>
+      <div class="control">
+        <input class="input" type="text" name="name" {% if chore %}value="{{ chore.name }}"{% endif %} placeholder="Chore Name">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Notes</label>
+      <div class="control">
+        <input class="input" type="text" name="notes" {% if chore %}value="{{ chore.notes }}"{% endif %} placeholder="Chore Notes">
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="control">
+        <label class="checkbox">
+          <input type="checkbox" id="repeat" name="repeat" {% if chore and chore.repeat %} checked {% endif %}>
+          Repeated Chore
+        </label>
+      </div>
+    </div>
+
+
+    <div class="field">
+      <label class="label">Repeat Time In Days</label>
+      <div class="control">
+        <div class="select">
+          <select id="repeat_time" name="repeat_time">
+            {% for i in range(1, 90) %}
+              <option value="{{i}}" {% if chore and chore.repeat_time == i %} selected {% endif %}>{{i}}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="field">
+      <label class="label">To User</label>
+      <div class="control">
+        <div class="select">
+          <select id="to_user" name="to_user">
+            {% for user in users %}
+              <option value="{{ user.id }}" {% if chore and chore.user.name == user.name %}selected{% endif %}>{{ user.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+    </div>
+
+
+      <div class="field">
+        <label class="label">From User</label>
+        <div class="control">
+          <div class="select">
+            <select id="from_user" name="from_user">
+              {% for user in users %}
+                <option value="{{ user.id }}" {% if chore and chore.from_user.name == user.name %}selected{% endif %}>{{ user.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="field is-grouped">
+        <div class="control">
+          <button class="button is-link">Submit</button>
+        </div>
+      </div>
+
+
+  </form>
+</div>
+{% endblock %}

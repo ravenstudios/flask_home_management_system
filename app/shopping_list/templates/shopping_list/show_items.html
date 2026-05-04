@@ -1,0 +1,184 @@
+{% extends 'base-template.html' %}
+{% block content %}
+
+  <nav class="level">
+    <div class="level-left">
+      <h1 class="level-item">Current Items Needed</h1>
+      <a class="level-item" href="add-new-item-form">
+        <button type="button" name="delete">Add New Item</button>
+      </a>
+      <button class="level-item" type="button" name="delete" onclick="deleteItems()">Delete</button>
+    </div>
+
+  </nav>
+
+
+  <div class="curent-items notification is-success">
+    {% if items %}
+      {% for item in items %}
+        {% if not item.save_for_later %}
+          <nav class="level notification {% if item.is_priority %} is-danger {% else %} is-success is-light {% endif %}">
+          <!-- Left side -->
+          <div class="level-left">
+            <div class="level-item">
+              <h1 class=" is-5"><strong>{{ item.name }}</strong></h1>
+            </div>
+            <div class="level-item">
+              <p>
+                Date: {{ item.date_entered }}
+              </p>
+            </div>
+            <div class="level-item">
+              Added By:
+              <figure class="image is-24x24">
+                <img class="is-rounded" src="{{ item.user.image_file_location }}">
+              </figure>
+            </div>
+          </div>
+
+          <div class="level-right">
+            <div class="level-item">
+              <label class="checkbox ">
+                <input type="checkbox"  id="is_priority_{{ item.id }}" onclick="toggleState('is_priority_{{ item.id }}', '/shopping-list/is-priority?id={{item.id}}')"
+                   {% if item.is_priority %} checked {% endif %}>
+                Priority
+              </label>
+            </div>
+
+            <div class="level-item">
+              <label class="checkbox">
+                <input type="checkbox"  id="save_for_later_{{ item.id }}" onclick="toggleState('save_for_later_{{ item.id }}', '/shopping-list/save-for-later?id={{item.id}}')"
+                   {% if item.save_for_later %} checked {% endif %}>
+                Save For Later
+              </label>
+            </div>
+
+            <div class="level-item">
+              <label class="checkbox">
+                <input type="checkbox" class="to-be-deleted" class="" id="{{ item.id }}">
+                Delete
+              </label>
+            </div>
+
+
+
+
+
+
+          </div>
+        </nav>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </div>
+
+
+  <h1>Save For Later</h1>
+  <div class="save-for-later-items notification is-warning">
+    {% if items %}
+      {% for item in items %}
+        {% if item.save_for_later %}
+          <nav class="level notification {% if item.is_priority %} is-danger {% else %} is-success is-light {% endif %}">
+          <!-- Left side -->
+          <div class="level-left">
+            <div class="level-item">
+              <h1 class=" is-5"><strong>{{ item.name }}</strong></h1>
+            </div>
+            <div class="level-item">
+              Date: {{ item.date_entered }}
+            </div>
+            <div class="level-item">
+              Added By:
+              <figure class="image is-24x24">
+                <img class="is-rounded" src="{{ item.user.image_file_location }}">
+              </figure>
+            </div>
+          </div>
+
+          <div class="level-right">
+            <div class="level-item">
+              <label class="checkbox ">
+                <input type="checkbox"  id="is_priority_{{ item.id }}" onclick="toggleState('is_priority_{{ item.id }}', '/shopping-list/is-priority?id={{item.id}}')"
+                   {% if item.is_priority %} checked {% endif %}>
+                Priority
+              </label>
+            </div>
+
+            <div class="level-item">
+              <label class="checkbox">
+                <input type="checkbox"  id="save_for_later_{{ item.id }}" onclick="toggleState('save_for_later_{{ item.id }}', '/shopping-list/save-for-later?id={{item.id}}')"
+                   {% if item.save_for_later %} checked {% endif %}>
+                Save For Later
+              </label>
+            </div>
+
+            <div class="level-item">
+              <label class="checkbox">
+                <input type="checkbox" class="to-be-deleted" class="" id="{{ item.id }}">
+                Delete
+              </label>
+            </div>
+
+
+
+
+
+
+          </div>
+        </nav>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </div>
+
+
+
+<script type="text/javascript">
+  function confirmDelete(id){
+    if(confirm("Are you sure you want to delete")){
+      window.location.href = "/shopping-list/delete-item?id=" + id
+    }
+  }
+
+</script>
+
+
+<script>
+  function toggleState(elem, url){
+    var checkbox = document.getElementById(elem);
+    checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                window.location.href = url + "&state=True"
+            } else {
+                window.location.href = url + "&state=False"
+            }
+        });
+
+  }
+</script>
+
+
+<script>
+  function deleteItems(){
+
+    var checkboxes = document.getElementsByClassName('to-be-deleted');
+
+    var ids = [];
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                ids.push(checkboxes[i].id)
+              }
+
+        }
+
+        if(ids.length > 0){
+          var idsString = ids.join(',');
+          window.location.href = "/shopping-list/delete-items?ids=" + idsString;
+        }
+
+
+  }
+</script>
+
+
+{% endblock %}

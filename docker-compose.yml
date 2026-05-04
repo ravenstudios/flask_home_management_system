@@ -1,0 +1,16 @@
+version: '3.10'
+services:
+  home_management_system:
+    build: .
+    container_name: home_management_system
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    volumes:
+      - .:/app
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+
+
+# Call this and set it in a .env file as "SECRET_KEY=key from command below"
+# python -c "import secrets; print(secrets.token_hex(32))"

@@ -1,0 +1,29 @@
+{% extends 'base-template.html' %}
+{% block content %}
+<div id="content">
+  <form class="" action="add-new-user" method="post" enctype="multipart/form-data">
+    <!-- {% if user %}<h1>{{ user.id}}</h1> {% endif %}
+    {% if user %}<input type="hidden" name="_id" value="{{ user._id}}">{% endif %} -->
+
+    <label for="name">Name</label>
+      <input type="text" name="name">
+
+    <label for="username">Username</label>
+      <input type="text" name="username">
+
+    <label for="password_hash">Password</label>
+      <input type="password" name="password">
+
+    <label for="confirm_password">Confirm Password</label>
+      <input type="password" name="confirm_password">
+
+    <label for="push_device">Push Device</label>
+      <input type="text" name="push_device">
+
+    <label for="image_file_location">Icon</label>
+      <input type="file" name="image_file_location" />
+
+    <input type="submit" value="Submit">
+  </form>
+</div>
+{% endblock %}
